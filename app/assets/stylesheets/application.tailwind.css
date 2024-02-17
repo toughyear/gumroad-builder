@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.elevate {
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 0.6em 1.4em;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.elevate:hover {
+  background: #ff90e8;
+  color: #000;
+  transform: translate(-0.25rem, -0.25rem);
+  box-shadow: 0.25rem 0.25rem #000;
+}
+
+.elevate:active {
+  transform: translate(0);
+  box-shadow: none;
+}
+
+/* elevate outline mode */
+
+.elevate-outline {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 0.6em 1.4em;
+  transition: 0.1s;
+  cursor: pointer;
+}
+
+.elevate-outline:hover {
+  transform: translate(-0.25rem, -0.25rem);
+  box-shadow: 0.25rem 0.25rem #000;
+}
+
+.elevate-outline:active {
+  transform: translate(0);
+  box-shadow: none;
+}
