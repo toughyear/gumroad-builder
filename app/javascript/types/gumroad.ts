@@ -1,10 +1,15 @@
 export type UserProfile = {
-  bio: string;
   name: string;
+  currency_type: string;
+  bio: string;
   twitter_handle: string | null;
+  id: string;
   user_id: string;
-  email: string;
   url: string;
+  links: string[];
+  profile_url: string;
+  email: string;
+  display_name: string;
 };
 
 export type UseUserProfileResult = {
