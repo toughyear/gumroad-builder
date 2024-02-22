@@ -16,14 +16,14 @@ function Navbar() {
   return (
     <div className='w-full border-b-[1px] border-black py-3'>
       <div className='flex mx-auto max-w-5xl justify-between items-center'>
-        <div className='flex items-center text-xl'>
+        <a className='flex items-center text-xl' href='/'>
           <img
-            src='gumroad_logo.png'
+            src={window.location.origin + "/gumroad_logo.png"}
             alt='Gumroad Logo'
             className='h-20 mr-2'
           />
           Page Builder
-        </div>
+        </a>
         <div className='text-md'>
           {accessToken ? (
             <button className='elevate-outline' onClick={logOut}>

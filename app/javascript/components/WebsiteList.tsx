@@ -1,12 +1,19 @@
 import React from "react";
 import useWebsites from "../hooks/useWebsites";
 import { DateTime } from "luxon";
+import { Plus } from "lucide-react";
 
 function WebsiteList() {
   const { websites } = useWebsites();
 
   return (
     <div className='grid grid-cols-3 gap-4 py-5'>
+      <div className='p-4 elevate flex flex-col'>
+        <h1 className='font-bold text-2xl'>Create A Website</h1>
+        <div className='h-full flex items-center justify-center'>
+          <Plus />
+        </div>
+      </div>
       {websites &&
         websites.map((website) => (
           <div
@@ -20,7 +27,7 @@ function WebsiteList() {
                   Published
                 </p>
               ) : (
-                <p className='p-2 bg-black text-white font-bold self-start rounded-md'>
+                <p className='p-2 bg-black border-2 border-black text-white font-bold self-start rounded-md'>
                   Draft
                 </p>
               )}
@@ -38,7 +45,9 @@ function WebsiteList() {
                 Last updated:{" "}
                 {DateTime.fromISO(website.updated_at).toRelativeCalendar()}
               </p>
-              <a className='elevate self-end'>Edit</a>
+              <a className='elevate self-end' href={`/edit/${website.id}`}>
+                Edit
+              </a>
             </div>
           </div>
         ))}
