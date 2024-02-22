@@ -1,7 +1,7 @@
 class WebsitesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_website, only: [:show, :update, :destroy]
-  before_action :authenticate_user, only: [:create, :update, :destroy]
+  before_action :authenticate_user, only: [:index, :create, :update, :destroy]
 
   # GET /websites
   def index

@@ -9,12 +9,12 @@ module.exports = {
     "./app/javascript/**/*.ts",
   ],
   theme: {
-    fontFamily: {
-      sans: ['"Space Grotesk"', "sans-serif"],
-    },
     extend: {
       colors: {
         "bubble-gum": "#ff90e8",
+      },
+      fontFamily: {
+        sans: ['"Space Grotesk"', "sans-serif"],
       },
     },
   },
