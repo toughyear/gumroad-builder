@@ -45,7 +45,7 @@ function ContentEditor({ siteInfo }: ContentEditorProps) {
       {content.sections.map((section, index) => {
         if (isNavbarSection(section)) {
           return (
-            <div className='w-full border-b border-black '>
+            <div className='w-full border-b border-black' key={section.id}>
               <div className='max-w-5xl mx-auto py-5 w-full flex justify-between content-center'>
                 <div>
                   {section.data.heading && (
@@ -86,7 +86,7 @@ function ContentEditor({ siteInfo }: ContentEditorProps) {
         }
 
         return (
-          <div>
+          <div key={section.id}>
             <p>{section.id}</p>
             <p>{section.type}</p>
           </div>

@@ -8,7 +8,7 @@ interface WebsitesState {
   loading: boolean;
   error: string | null;
   fetchWebsites: () => Promise<void>;
-  createWebsite: (websiteData: Partial<Website>) => Promise<void>;
+  createWebsite: (websiteData: Partial<Website>) => Promise<Website>;
   updateWebsite: (id: string, websiteData: Partial<Website>) => Promise<void>;
   deleteWebsite: (id: string) => Promise<void>;
 }
@@ -58,10 +58,13 @@ export const useWebsitesStore = create<WebsitesState>((set, get) => ({
         },
         body: JSON.stringify(websiteData),
       });
+
       if (!response.ok) {
         throw new Error("Failed to create website.");
       }
       await get().fetchWebsites(); // Refresh list after creating
+
+      return response.json();
     } catch (error: any) {
       set({ error: error.message });
     } finally {

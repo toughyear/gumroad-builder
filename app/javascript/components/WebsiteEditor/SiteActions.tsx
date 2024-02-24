@@ -60,10 +60,9 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Change the Title of the website</DialogTitle>
+                <DialogTitle>Change label for your website</DialogTitle>
                 <DialogDescription>
-                  The title is shown at the top of your browser tab and also
-                  helps in easy identification for you.
+                  Label to help identify your website.
                 </DialogDescription>
               </DialogHeader>
               <Input
