@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-// import useWebsites from "../hooks/useWebsites";
 import { DateTime } from "luxon";
-import { Plus } from "lucide-react";
+import { MoreHorizontal, Plus } from "lucide-react";
 import { useWebsitesStore } from "../store/useWebsitesStore";
 import { ContentParsed, SectionType, Website } from "../types/website";
 import { v4 as uuidv4 } from "uuid";
@@ -17,16 +16,23 @@ import {
   DialogTrigger,
 } from "./ui/Dialog";
 import { Input } from "./ui/Input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/Dropdown";
+import clsx from "clsx";
 
 function WebsiteList() {
-  const { websites, createWebsite } = useWebsitesStore();
+  const { websites, createWebsite, deleteWebsite } = useWebsitesStore();
   const { toast } = useToast();
   const { profile } = useUserProfile();
   const { products } = useProducts();
 
-  const [open, setOpen] = useState(false);
   const [creating, setCreating] = useState(false);
   const [newSiteTitle, setNewSiteTitle] = useState("My New Website");
+  const [deletingSiteId, setDeletingSiteId] = useState<string | null>(null);
 
   const handleCreateWebsite = async () => {
     if (!profile || !products) {
@@ -79,6 +85,25 @@ function WebsiteList() {
     window.location.href = `/edit/${result.id}`;
   };
 
+  const handleDeleteWebsite = async (id: string) => {
+    try {
+      setDeletingSiteId(id);
+      await deleteWebsite(id);
+
+      toast({
+        title: "Deleted Successfully",
+        description: "Your website has been deleted successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error deleting your website",
+      });
+    } finally {
+      setDeletingSiteId(null);
+    }
+  };
+
   return (
     <div className='grid grid-cols-3 gap-4 py-5'>
       <Dialog>
@@ -123,8 +148,33 @@ function WebsiteList() {
         websites.map((website) => (
           <div
             key={website.id}
-            className='p-4 border-2 border-black flex flex-col rounded-md'
+            className={clsx(
+              "p-4 border-2 border-black flex flex-col rounded-md",
+              website.id === deletingSiteId && "animate-pulse bg-red-100"
+            )}
           >
+            <DropdownMenu>
+              <DropdownMenuTrigger className='self-end cursor-pointer'>
+                <MoreHorizontal />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => {
+                    toast({
+                      description: "Feature Coming Soon",
+                    });
+                  }}
+                >
+                  Duplicate Site
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className='text-red-700'
+                  onClick={() => handleDeleteWebsite(website.id)}
+                >
+                  Permanently Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <h1 className='font-bold text-2xl'>{website.title}</h1>
             <div className='mt-5 mb-2 self-start'>
               {website.published ? (

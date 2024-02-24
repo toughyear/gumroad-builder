@@ -110,8 +110,9 @@ export const useWebsitesStore = create<WebsitesState>((set, get) => ({
         throw new Error("Failed to delete website.");
       }
       await get().fetchWebsites(); // Refresh list after deleting
-    } catch (error: any) {
+    } catch (error) {
       set({ error: error.message });
+      throw error;
     } finally {
       set({ loading: false });
     }
