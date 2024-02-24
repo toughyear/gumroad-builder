@@ -2,6 +2,7 @@ import React from "react";
 import Routes from "../routes";
 import Navbar from "./Navbar";
 import useInitWebsites from "../hooks/useInitWebsites";
+import { Toaster } from "../components/ui/Toaster";
 
 export default (props) => {
   useInitWebsites();
@@ -14,6 +15,7 @@ export default (props) => {
       <div className='bg-white'>
         you are in a project subdomain
         <p>{url}</p>
+        <Toaster />
       </div>
     );
   }
@@ -22,6 +24,7 @@ export default (props) => {
     <div className='bg-white'>
       <Navbar />
       {Routes}
+      <Toaster />
     </div>
   );
 };

@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import { Website } from "../../types/website";
 import { useWebsitesStore } from "../../store/useWebsitesStore";
 import SiteActions from "./SiteActions";
+import ContentEditor from "./ContentEditor";
 
 function Index() {
   const { siteId } = useParams<{ siteId: string }>();
-  const [siteInfo, setSiteInfo] = useState<Partial<Website>>({});
-  const { websites, updateWebsite } = useWebsitesStore();
+  const [siteInfo, setSiteInfo] = useState<Website | null>(null);
+  const { websites } = useWebsitesStore();
 
   useEffect(() => {
     const currentSite = websites?.find((site) => site.id === siteId);
@@ -15,17 +16,6 @@ function Index() {
       setSiteInfo(currentSite);
     }
   }, [siteId, websites]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSiteInfo({ ...siteInfo, [e.target.name]: e.target.value });
-  };
-
-  const handleModify = async () => {
-    if (!siteInfo.id) return; // Ensure we have a site ID
-    await updateWebsite(siteInfo.id, {
-      title: siteInfo.title,
-    });
-  };
 
   if (!siteInfo)
     return (
@@ -36,18 +26,8 @@ function Index() {
 
   return (
     <div className='flex flex-col w-full mb-5'>
-      <SiteActions />
-      <div>Site ID: {siteId}</div>
-      <div>
-        <label htmlFor='title'>Title:</label>
-        <input
-          id='title'
-          name='title'
-          value={siteInfo.title || ""}
-          onChange={handleChange}
-        />
-      </div>
-      <button onClick={handleModify}>Modify</button>
+      <SiteActions setSiteInfo={setSiteInfo} siteInfo={siteInfo} />
+      <ContentEditor siteInfo={siteInfo} />
     </div>
   );
 }

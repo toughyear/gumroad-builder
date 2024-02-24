@@ -4,12 +4,15 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^7.3.0",
+    "@lexical/react": "^0.13.1",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
     "autoprefixer": "^10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "esbuild": "^0.20.0",
+    "lexical": "^0.13.1",
     "lucide-react": "^0.336.0",
     "luxon": "^3.4.4",
     "postcss": "^8.4.33",
@@ -19,6 +22,7 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
+    "validator": "^13.11.0",
     "zustand": "^4.5.1"
   },
   "scripts": {
