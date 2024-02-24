@@ -1,3 +1,5 @@
+import { UserProfile, Product } from "./gumroad";
+
 export type Website = {
   id: string;
   title?: string;
@@ -12,8 +14,13 @@ export type Website = {
 
 export type ContentParsed = {
   theme?: string;
-  common?: Object;
+  common?: ContentParsedCommon;
   sections: Array<Section>;
+};
+
+export type ContentParsedCommon = {
+  userProfile: UserProfile;
+  products: Array<Product>;
 };
 
 export enum SectionType {
