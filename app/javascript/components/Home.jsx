@@ -7,14 +7,14 @@ const Home = () => {
   useUpdateAccessToken();
   const accessToken = useAuthStore((state) => state.accessToken);
 
+  if (accessToken === null) {
+    return <p>Landing Page UI. Ask for logging in.</p>;
+  }
+
   return (
     <div className='max-w-5xl mx-auto'>
       <div>
-        {accessToken ? (
-          <p>Access token found: {accessToken}</p>
-        ) : (
-          <p>No access token found</p>
-        )}
+        <p>Access token found: {accessToken}</p>
       </div>
       <WebsiteList />
     </div>

@@ -1,10 +1,12 @@
 import React from "react";
 import Routes from "../routes";
 import Navbar from "./Navbar";
+import useInitWebsites from "../hooks/useInitWebsites";
 
 export default (props) => {
-  const url = window.location.hostname;
+  useInitWebsites();
 
+  const url = window.location.hostname;
   const isProjectSubdomain = url.startsWith("site-");
 
   if (isProjectSubdomain) {

@@ -22,7 +22,7 @@ function Navbar() {
             alt='Gumroad Logo'
             className='h-20 mr-2'
           />
-          Page Builder
+          Website Builder
         </a>
         <div className='text-md'>
           {accessToken ? (

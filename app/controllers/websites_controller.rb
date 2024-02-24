@@ -15,7 +15,7 @@ class WebsitesController < ApplicationController
   end
 
   def update
-    if @website.update(website_params)
+    if @website.update(website_params.merge(version: @website.version + 1)) # Increment version by 1
       render json: @website
     else
       render json: @website.errors, status: :unprocessable_entity
@@ -86,6 +86,6 @@ class WebsitesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def website_params
-      params.require(:website).permit(:title, :published, :url, :content, :version)
+      params.require(:website).permit(:title, :published, :url, :content)
     end
 end
