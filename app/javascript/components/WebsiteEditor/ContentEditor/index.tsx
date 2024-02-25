@@ -53,13 +53,23 @@ function ContentEditor({ siteInfo }: ContentEditorProps) {
                       {section.data.heading}
                     </h1>
                   )}
-                  {section.data.subheading && (
+                  {/* {section.data.subheading && (
                     <h2>{section.data.subheading}</h2>
+                  )} */}
+                  {section.data.showAvatar && (
+                    <div className='flex items-center'>
+                      <img
+                        src={content.common?.userProfile.profile_url}
+                        alt='avatar'
+                        className='rounded-full aspect-square h-6 border border-black mr-2'
+                      />
+                      <p>{content.common?.userProfile.display_name}</p>
+                    </div>
                   )}
                 </div>
                 {section.data.captureEmail && (
                   <form
-                    className='flex items-center'
+                    className='flex items-start'
                     onSubmit={(e) => {
                       e.preventDefault();
                       toast({
@@ -75,7 +85,7 @@ function ContentEditor({ siteInfo }: ContentEditorProps) {
                       name='email'
                       required
                     />
-                    <button className='elevate-brand' type='submit'>
+                    <button className='elevate-brand text-sm' type='submit'>
                       {section.data.captureEmailText || "Subscribe"}
                     </button>
                   </form>
