@@ -23,9 +23,9 @@ function AddSection({ sectionId, addSection }: AddSectionProps) {
             },
           })
         }
-        className='absolute rounded-md cursor-pointer hover:border-2 bg-white border border-black aspect-square p-2 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2'
+        className='flex items-center absolute h-8 w-8 rounded-md cursor-pointer hover:border-2 bg-white border border-black aspect-square p-2 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2'
       >
-        <PlusCircle className='stroke-[1.5]' />
+        <PlusCircle className='stroke-[1.5] h-4 w-4' />
       </div>
     </div>
   );

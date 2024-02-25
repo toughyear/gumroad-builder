@@ -13,7 +13,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ section, content }) => {
   const { toast } = useToast();
 
   return (
-    <div className='w-full border-t border-black'>
+    <div className='w-full'>
       <div className='max-w-5xl mx-auto py-5 w-full flex justify-between content-center'>
         {showPoweredBy && (
           <p>
