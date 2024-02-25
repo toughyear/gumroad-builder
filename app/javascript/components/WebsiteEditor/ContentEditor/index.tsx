@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ContentParsed,
+  Section,
   SectionType,
   Website,
+  isFooterSection,
   isNavbarSection,
 } from "../../../types/website";
 import { useWebsitesStore } from "../../../store/useWebsitesStore";
 import { useToast } from "../../../hooks/useToast";
-import { Input } from "../../ui/Input";
+
+import NavbarSection from "./NavbarSection";
+import FooterSection from "./FooterSection";
+import AddSection from "./AddSection";
 
 type ContentEditorProps = {
   siteInfo: Website;
@@ -40,58 +45,83 @@ function ContentEditor({ siteInfo }: ContentEditorProps) {
     }
   });
 
+  useEffect(() => {
+    try {
+      if (siteInfo.content) {
+        const parsedContent = JSON.parse(siteInfo.content);
+        setContent(parsedContent);
+      }
+    } catch (error) {
+      toast({
+        title: "Something went wrong!",
+        description:
+          "The site content was invalid. We have reset it for you locally.",
+      });
+      setContent({ sections: [] });
+    }
+  }, [siteInfo.content]);
+
+  const addSectionHandler = async (sectionId: string, newSection: Section) => {
+    // keep record of unmodified content
+    const oldContent = content;
+
+    const sectionIndex = content.sections.findIndex(
+      (section) => section.id === sectionId
+    );
+
+    // insert new section after the sectionId
+
+    const newSections = [
+      ...content.sections.slice(0, sectionIndex + 1),
+      newSection,
+      ...content.sections.slice(sectionIndex + 1),
+    ];
+
+    // update locally optimistically, ordered next to sectionId
+    setContent({ ...content, sections: newSections });
+
+    // update on the server
+    try {
+      await updateWebsite(siteInfo.id, {
+        ...siteInfo,
+        content: JSON.stringify({ ...content, sections: newSections }),
+      });
+    } catch (error) {
+      toast({
+        title: "Something went wrong!",
+        description: "We couldn't add the section.",
+      });
+
+      // revert locally
+      setContent(oldContent);
+    }
+  };
+
   return (
     <React.Fragment>
       {content.sections.map((section, index) => {
         if (isNavbarSection(section)) {
           return (
-            <div className='w-full border-b border-black' key={section.id}>
-              <div className='max-w-5xl mx-auto py-5 w-full flex justify-between content-center'>
-                <div>
-                  {section.data.heading && (
-                    <h1 className='text-3xl font-bold'>
-                      {section.data.heading}
-                    </h1>
-                  )}
-                  {/* {section.data.subheading && (
-                    <h2>{section.data.subheading}</h2>
-                  )} */}
-                  {section.data.showAvatar && (
-                    <div className='flex items-center'>
-                      <img
-                        src={content.common?.userProfile.profile_url}
-                        alt='avatar'
-                        className='rounded-full aspect-square h-6 border border-black mr-2'
-                      />
-                      <p>{content.common?.userProfile.display_name}</p>
-                    </div>
-                  )}
-                </div>
-                {section.data.captureEmail && (
-                  <form
-                    className='flex items-start'
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      toast({
-                        title: "Email captured!",
-                        description: "We have captured your email.",
-                      });
-                    }}
-                  >
-                    <Input
-                      type='email'
-                      placeholder='your email'
-                      className='mr-2'
-                      name='email'
-                      required
-                    />
-                    <button className='elevate-brand text-sm' type='submit'>
-                      {section.data.captureEmailText || "Subscribe"}
-                    </button>
-                  </form>
-                )}
-              </div>
-            </div>
+            <React.Fragment>
+              <NavbarSection
+                content={content}
+                section={section}
+                key={section.id}
+              />
+              <AddSection
+                sectionId={section.id}
+                addSection={addSectionHandler}
+              />
+            </React.Fragment>
+          );
+        }
+        if (isFooterSection(section)) {
+          return (
+            <FooterSection
+              content={content}
+              section={section}
+              key={section.id}
+            />
           );
         }
 
