@@ -22,7 +22,6 @@ export default (props) => {
 
   return (
     <div className='bg-white'>
-      <Navbar />
       {Routes}
       <Toaster />
     </div>
