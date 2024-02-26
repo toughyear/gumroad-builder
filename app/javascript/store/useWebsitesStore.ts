@@ -91,6 +91,7 @@ export const useWebsitesStore = create<WebsitesState>((set, get) => ({
       await get().fetchWebsites(); // Refresh list after updating
     } catch (error: any) {
       set({ error: error.message });
+      throw error;
     } finally {
       set({ loading: false });
     }
