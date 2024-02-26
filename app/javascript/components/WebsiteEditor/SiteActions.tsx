@@ -1,7 +1,7 @@
 // components/SiteActions.tsx
 import React, { useState } from "react";
 import { Input } from "../ui/Input";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Settings } from "lucide-react";
 import { Website } from "../../types/website";
 import { useWebsitesStore } from "../../store/useWebsitesStore";
 import {
@@ -11,6 +11,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 type SiteActionsProps = {
   siteInfo: Website;
@@ -50,7 +57,9 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
 
   return (
     <Sheet>
-      <SheetTrigger>Open</SheetTrigger>
+      <SheetTrigger className='absolute top-5 left-5 elevate-outline !p-2 group'>
+        <Settings className='stroke-[1.5]  group-hover:rotate-90 transition-transform' />
+      </SheetTrigger>
       <SheetContent className='text-black flex flex-col'>
         <SheetHeader>
           <SheetTitle>Manage Website</SheetTitle>
@@ -81,8 +90,18 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
           </button>
         </div>
 
-        <p>Site Title</p>
+        <p>Title</p>
         <Input name='title' value={siteInfo.title} onChange={handleChange} />
+        <p>Theme</p>
+        <Select value='default'>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='Theme' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='default'>Default Theme</SelectItem>
+          </SelectContent>
+        </Select>
+
         <button
           disabled={updating}
           className='elevate-brand mt-auto'
