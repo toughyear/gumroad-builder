@@ -1,19 +1,123 @@
-import React from "react";
-import { ContentParsed, NavbarSection } from "../../../types/website";
+import React, { useState } from "react";
+import { ContentParsed, NavbarSection, Website } from "../../../types/website";
 import { Input } from "../../ui/Input";
 import { useToast } from "../../../hooks/useToast";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../../ui/sheet";
+import { useWebsitesStore } from "../../../store/useWebsitesStore";
+import { Pencil } from "lucide-react";
+import clsx from "clsx";
 
 type NavbarSectionProps = {
   content: ContentParsed;
   section: NavbarSection;
+  siteInfo: Website;
 };
 
-const NavbarSection: React.FC<NavbarSectionProps> = ({ section, content }) => {
+const NavbarSection: React.FC<NavbarSectionProps> = ({
+  section,
+  content,
+  siteInfo,
+}) => {
   const userProfile = content.common?.userProfile;
+
   const { toast } = useToast();
+  const [updating, setUpdating] = useState(false);
+  const { updateWebsite } = useWebsitesStore();
+  const [deletingSection, setDeletingSection] = useState(false);
+
+  const [localSection, setLocalSection] = useState<NavbarSection>(section);
+
+  const handleUpdate = async () => {
+    if (!localSection.id) return;
+    setUpdating(true);
+    const newSections = content.sections.map((s) =>
+      s.id === localSection.id ? localSection : s
+    );
+
+    const newContentParsed = {
+      ...content,
+      sections: newSections,
+    };
+
+    const newSiteInfo = {
+      ...siteInfo,
+      content: JSON.stringify(newContentParsed),
+    };
+
+    try {
+      await updateWebsite(siteInfo.id, newSiteInfo);
+    } catch (error) {
+      toast({
+        title: "Something went wrong!",
+        description: "We couldn't update the section.",
+      });
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleDeleteSection = async () => {
+    setDeletingSection(true);
+    const newSections = content.sections.filter((s) => s.id !== section.id);
+    const newContentParsed = {
+      ...content,
+      sections: newSections,
+    };
+
+    const newSiteInfo = {
+      ...siteInfo,
+      content: JSON.stringify(newContentParsed),
+    };
+
+    try {
+      await updateWebsite(siteInfo.id, newSiteInfo);
+    } catch (error) {
+      toast({
+        title: "Something went wrong!",
+        description: "We couldn't delete the section.",
+      });
+    } finally {
+      setDeletingSection(false);
+    }
+  };
 
   return (
-    <div className='w-full border-b border-black'>
+    <div
+      className={clsx(
+        "w-full border-b border-black relative",
+        deletingSection && "animate-pulse bg-red-200"
+      )}
+    >
+      <Sheet>
+        <SheetTrigger className='absolute top-5 left-5 elevate-outline !p-2'>
+          <Pencil className='stroke-[1.5]' />
+        </SheetTrigger>
+        <SheetContent className='text-black flex flex-col'>
+          <SheetHeader>
+            <SheetTitle>Edit Section</SheetTitle>
+          </SheetHeader>
+
+          <button
+            disabled={updating}
+            className='elevate-brand mt-auto'
+            onClick={handleUpdate}
+          >
+            {updating ? "Updating..." : "Save Changes"}
+          </button>
+          <button
+            className='elevate-outline mt-2'
+            onClick={handleDeleteSection}
+          >
+            {deletingSection ? "Deleting..." : "Delete Section"}
+          </button>
+        </SheetContent>
+      </Sheet>
       <div className='max-w-5xl mx-auto py-5 w-full flex justify-between content-center'>
         <div>
           {section.data.showAvatar && userProfile && (

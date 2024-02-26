@@ -34,7 +34,7 @@ function WebsiteEditor() {
   return (
     <div className='flex flex-col w-full mb-5'>
       <SiteActions setSiteInfo={setSiteInfo} siteInfo={siteInfo} />
-      <ContentEditor siteInfo={siteInfo} />
+      <ContentEditor setSiteInfo={setSiteInfo} siteInfo={siteInfo} />
     </div>
   );
 }

@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/Dropdown";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 function WebsiteList() {
   const { websites, createWebsite, deleteWebsite } = useWebsitesStore();
@@ -200,9 +201,9 @@ function WebsiteList() {
                 Last updated:{" "}
                 {DateTime.fromISO(website.updated_at).toRelativeCalendar()}
               </p>
-              <a className='elevate self-end' href={`/edit/${website.id}`}>
+              <Link className='elevate self-end' to={`/edit/${website.id}`}>
                 Edit
-              </a>
+              </Link>
             </div>
           </div>
         ))}

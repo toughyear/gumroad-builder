@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Link } from "react-router-dom";
 
 type SiteActionsProps = {
   siteInfo: Website;
@@ -57,7 +58,7 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
 
   return (
     <Sheet>
-      <SheetTrigger className='absolute top-5 left-5 elevate-outline !p-2 group'>
+      <SheetTrigger className='fixed top-5 left-20 elevate-outline !p-2 group z-10'>
         <Settings className='stroke-[1.5]  group-hover:rotate-90 transition-transform' />
       </SheetTrigger>
       <SheetContent className='text-black flex flex-col'>
@@ -102,9 +103,12 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
           </SelectContent>
         </Select>
 
+        <Link className='elevate-outline mt-auto text-center' to={"/"}>
+          Home
+        </Link>
         <button
           disabled={updating}
-          className='elevate-brand mt-auto'
+          className='elevate-brand'
           onClick={handleUpdate}
         >
           {updating ? "Updating..." : "Save Changes"}

@@ -16,9 +16,10 @@ import AddSection from "./AddSection";
 
 type ContentEditorProps = {
   siteInfo: Website;
+  setSiteInfo: React.Dispatch<React.SetStateAction<Website | null>>;
 };
 
-function ContentEditor({ siteInfo }: ContentEditorProps) {
+function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
   const { updateWebsite } = useWebsitesStore();
   const { toast } = useToast();
   const [content, setContent] = useState<ContentParsed>(() => {
@@ -103,7 +104,11 @@ function ContentEditor({ siteInfo }: ContentEditorProps) {
         if (isNavbarSection(section)) {
           return (
             <React.Fragment key={section.id}>
-              <NavbarSection content={content} section={section} />
+              <NavbarSection
+                content={content}
+                section={section}
+                siteInfo={siteInfo}
+              />
               <AddSection
                 sectionId={section.id}
                 addSection={addSectionHandler}
