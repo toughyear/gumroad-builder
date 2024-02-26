@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ContentParsed, NavbarSection, Website } from "../../../types/website";
 import { Input } from "../../ui/Input";
+import { Switch } from "../../ui/Switch";
 import { useToast } from "../../../hooks/useToast";
 import {
   Sheet,
@@ -87,6 +88,13 @@ const NavbarSection: React.FC<NavbarSectionProps> = ({
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalSection({
+      ...localSection,
+      data: { ...localSection.data, [e.target.name]: e.target.value },
+    });
+  };
+
   return (
     <div
       className={clsx(
@@ -100,8 +108,48 @@ const NavbarSection: React.FC<NavbarSectionProps> = ({
         </SheetTrigger>
         <SheetContent className='text-black flex flex-col'>
           <SheetHeader>
-            <SheetTitle>Edit Section</SheetTitle>
+            <SheetTitle>Edit Navbar Section</SheetTitle>
           </SheetHeader>
+          <p>Heading</p>
+          <Input
+            name='heading'
+            value={localSection.data.heading}
+            onChange={handleChange}
+          />
+          <div className='flex items-center justify-between'>
+            <p>Capture Emails</p>
+            <Switch
+              checked={localSection.data.captureEmail}
+              onCheckedChange={(checked) =>
+                setLocalSection({
+                  ...localSection,
+                  data: { ...localSection.data, captureEmail: checked },
+                })
+              }
+            />
+          </div>
+          {localSection.data.captureEmail && (
+            <>
+              <p>Capture Email Text</p>
+              <Input
+                name='captureEmailText'
+                value={localSection.data.captureEmailText}
+                onChange={handleChange}
+              />
+            </>
+          )}
+          <div className='flex items-center justify-between'>
+            <p>Show Avatar</p>
+            <Switch
+              checked={localSection.data.showAvatar}
+              onCheckedChange={(checked) =>
+                setLocalSection({
+                  ...localSection,
+                  data: { ...localSection.data, showAvatar: checked },
+                })
+              }
+            />
+          </div>
 
           <button
             disabled={updating}
@@ -152,7 +200,10 @@ const NavbarSection: React.FC<NavbarSectionProps> = ({
               name='email'
               required
             />
-            <button className='elevate-brand text-sm' type='submit'>
+            <button
+              className='elevate-brand text-sm whitespace-nowrap'
+              type='submit'
+            >
               {section.data.captureEmailText || "Subscribe"}
             </button>
           </form>
