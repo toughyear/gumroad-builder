@@ -5,7 +5,7 @@ import { useWebsitesStore } from "../../store/useWebsitesStore";
 import SiteActions from "./SiteActions";
 import ContentEditor from "./ContentEditor";
 
-function Index() {
+function WebsiteEditor() {
   const { siteId } = useParams<{ siteId: string }>();
   const [siteInfo, setSiteInfo] = useState<Website | null>(null);
   const { websites } = useWebsitesStore();
@@ -14,6 +14,8 @@ function Index() {
     const currentSite = websites?.find((site) => site.id === siteId);
     if (currentSite) {
       setSiteInfo(currentSite);
+      // update the title of the page
+      document.title = `Editing ${currentSite.title}`;
     }
   }, [siteId, websites]);
 
@@ -32,4 +34,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default WebsiteEditor;
