@@ -102,12 +102,8 @@ function ContentEditor({ siteInfo }: ContentEditorProps) {
       {content.sections.map((section, index) => {
         if (isNavbarSection(section)) {
           return (
-            <React.Fragment>
-              <NavbarSection
-                content={content}
-                section={section}
-                key={section.id}
-              />
+            <React.Fragment key={section.id}>
+              <NavbarSection content={content} section={section} />
               <AddSection
                 sectionId={section.id}
                 addSection={addSectionHandler}

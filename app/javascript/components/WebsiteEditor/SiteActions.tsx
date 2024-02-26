@@ -1,17 +1,16 @@
 // components/SiteActions.tsx
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger,
-} from "../ui/Dialog";
 import { Input } from "../ui/Input";
-import { CornerRightDown, ExternalLink, SquarePen } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Website } from "../../types/website";
 import { useWebsitesStore } from "../../store/useWebsitesStore";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 
 type SiteActionsProps = {
   siteInfo: Website;
@@ -20,71 +19,43 @@ type SiteActionsProps = {
 
 const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
   const { updateWebsite } = useWebsitesStore();
-
-  const [open, setOpen] = useState(false);
-  const [updatingTitle, setUpdatingTitle] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  // state to track when toggling publish status
+  const [togglingPublishStatus, setTogglingPublishStatus] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSiteInfo({ ...siteInfo, [e.target.name]: e.target.value });
   };
 
-  const handleTitleUpdate = async () => {
-    setUpdatingTitle(true);
+  const handleUpdate = async () => {
+    setUpdating(true);
     if (!siteInfo.id) return;
-    await updateWebsite(siteInfo.id, {
-      title: siteInfo.title,
-    });
-
-    setUpdatingTitle(false);
-    setOpen(false);
+    await updateWebsite(siteInfo.id, siteInfo);
+    setUpdating(false);
   };
 
   const togglePublishStatus = async () => {
     if (!siteInfo.id) return;
-    setSiteInfo({ ...siteInfo, published: !siteInfo.published });
-    await updateWebsite(siteInfo.id, {
-      published: !siteInfo.published,
-    });
+    setTogglingPublishStatus(true);
+    try {
+      await updateWebsite(siteInfo.id, {
+        published: !siteInfo.published,
+      });
+      setSiteInfo({ ...siteInfo, published: !siteInfo.published });
+    } catch (error) {
+    } finally {
+      setTogglingPublishStatus(false);
+    }
   };
 
   return (
-    <div className='mb-5  border-b border-black border-dashed w-full '>
-      <div className='max-w-5xl mx-auto flex justify-between items-center py-5'>
-        <div className='flex items-center'>
-          <h1 className='text-3xl font-bold'>{siteInfo?.title}</h1>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <button>
-                <SquarePen className='ml-4' />
-              </button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Change label for your website</DialogTitle>
-                <DialogDescription>
-                  Label to help identify your website.
-                </DialogDescription>
-              </DialogHeader>
-              <Input
-                value={siteInfo?.title || ""}
-                onChange={handleChange}
-                name='title'
-              />
-              <button
-                onClick={handleTitleUpdate}
-                className='elevate-brand'
-                disabled={updatingTitle}
-              >
-                {updatingTitle ? (
-                  <span className='animate-pulse'>Updating...</span>
-                ) : (
-                  "Update"
-                )}
-              </button>
-            </DialogContent>
-          </Dialog>
-        </div>
-        <div className='flex items-center'>
+    <Sheet>
+      <SheetTrigger>Open</SheetTrigger>
+      <SheetContent className='text-black flex flex-col'>
+        <SheetHeader>
+          <SheetTitle>Manage Website</SheetTitle>
+        </SheetHeader>
+        <div className='flex items-center my-5'>
           {siteInfo?.published ? (
             <a
               className='elevate-brand mr-2 flex items-center'
@@ -100,16 +71,27 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
             className={
               siteInfo?.published ? "elevate-outline" : "elevate-brand"
             }
+            disabled={togglingPublishStatus}
           >
-            {siteInfo?.published ? "Unpublish" : "Publish"}
+            {togglingPublishStatus
+              ? "Updating..."
+              : siteInfo?.published
+              ? "Unpublish"
+              : "Publish"}
           </button>
         </div>
-      </div>
-      <p className='flex w-full max-w-5xl mx-auto items-end'>
-        This is how your website looks like when published.{" "}
-        <CornerRightDown className='h-4 w-4' />
-      </p>
-    </div>
+
+        <p>Site Title</p>
+        <Input name='title' value={siteInfo.title} onChange={handleChange} />
+        <button
+          disabled={updating}
+          className='elevate-brand mt-auto'
+          onClick={handleUpdate}
+        >
+          {updating ? "Updating..." : "Save Changes"}
+        </button>
+      </SheetContent>
+    </Sheet>
   );
 };
 

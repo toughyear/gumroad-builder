@@ -14,10 +14,15 @@ function WebsiteEditor() {
     const currentSite = websites?.find((site) => site.id === siteId);
     if (currentSite) {
       setSiteInfo(currentSite);
-      // update the title of the page
-      document.title = `Editing ${currentSite.title}`;
     }
   }, [siteId, websites]);
+
+  // update document title with site title
+  useEffect(() => {
+    if (siteInfo?.title) {
+      document.title = `Editing ${siteInfo.title}`;
+    }
+  }, [siteInfo]);
 
   if (!siteInfo)
     return (
