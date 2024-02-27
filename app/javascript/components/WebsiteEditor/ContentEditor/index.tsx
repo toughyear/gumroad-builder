@@ -10,8 +10,8 @@ import {
 import { useWebsitesStore } from "../../../store/useWebsitesStore";
 import { useToast } from "../../../hooks/useToast";
 
-import NavbarSection from "./NavbarSection";
-import FooterSection from "./FooterSection";
+import NavbarItem from "./NavbarItem";
+import FooterItem from "./FooterItem";
 import AddSection from "./AddSection";
 
 type ContentEditorProps = {
@@ -104,7 +104,7 @@ function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
         if (isNavbarSection(section)) {
           return (
             <React.Fragment key={section.id}>
-              <NavbarSection
+              <NavbarItem
                 content={content}
                 section={section}
                 siteInfo={siteInfo}
@@ -118,11 +118,7 @@ function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
         }
         if (isFooterSection(section)) {
           return (
-            <FooterSection
-              content={content}
-              section={section}
-              key={section.id}
-            />
+            <FooterItem content={content} section={section} key={section.id} />
           );
         }
 

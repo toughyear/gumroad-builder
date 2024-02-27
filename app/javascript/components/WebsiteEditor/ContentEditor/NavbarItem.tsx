@@ -20,7 +20,7 @@ type NavbarSectionProps = {
   siteInfo: Website;
 };
 
-const NavbarSection: React.FC<NavbarSectionProps> = ({
+const NavbarItem: React.FC<NavbarSectionProps> = ({
   section,
   content,
   siteInfo,
@@ -213,4 +213,4 @@ const NavbarSection: React.FC<NavbarSectionProps> = ({
   );
 };
 
-export default NavbarSection;
+export default NavbarItem;

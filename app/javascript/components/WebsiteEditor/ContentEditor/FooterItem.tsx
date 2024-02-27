@@ -1,6 +1,5 @@
 import React from "react";
 import { ContentParsed, FooterSection } from "../../../types/website";
-import { Input } from "../../ui/Input";
 import { useToast } from "../../../hooks/useToast";
 
 type FooterSectionProps = {
@@ -8,7 +7,7 @@ type FooterSectionProps = {
   section: FooterSection;
 };
 
-const FooterSection: React.FC<FooterSectionProps> = ({ section, content }) => {
+const FooterItem: React.FC<FooterSectionProps> = ({ section, content }) => {
   const { showCopyright, showPoweredBy, text } = section.data;
   const { toast } = useToast();
 
@@ -28,4 +27,4 @@ const FooterSection: React.FC<FooterSectionProps> = ({ section, content }) => {
   );
 };
 
-export default FooterSection;
+export default FooterItem;
