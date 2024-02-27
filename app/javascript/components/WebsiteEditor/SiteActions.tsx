@@ -10,14 +10,14 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet";
+} from "../ui/Sheet";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../ui/Select";
 import { Link } from "react-router-dom";
 
 type SiteActionsProps = {

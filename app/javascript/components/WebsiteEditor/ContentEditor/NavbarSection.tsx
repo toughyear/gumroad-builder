@@ -9,7 +9,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../../ui/sheet";
+} from "../../ui/Sheet";
 import { useWebsitesStore } from "../../../store/useWebsitesStore";
 import { Pencil } from "lucide-react";
 import clsx from "clsx";
