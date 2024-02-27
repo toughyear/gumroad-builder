@@ -12,7 +12,7 @@ import { Switch } from "../../ui/Switch";
 import { Pencil } from "lucide-react";
 import clsx from "clsx";
 import { ContentParsed, NavbarSection, Website } from "../../../types/website";
-import { useToast } from "../../../hooks/useToast";
+import NavbarView from "../Views/NavbarView";
 
 type NavbarSectionProps = {
   content: ContentParsed;
@@ -21,9 +21,6 @@ type NavbarSectionProps = {
 };
 
 const NavbarItem = ({ section, content, siteInfo }: NavbarSectionProps) => {
-  const userProfile = content.common?.userProfile;
-  const { toast } = useToast();
-
   const [localSection, setLocalSection] = useState(section);
   const { isUpdating, isDeleting, handleUpdateSection, handleDeleteSection } =
     useSectionOperations(siteInfo, content, section);
@@ -35,10 +32,14 @@ const NavbarItem = ({ section, content, siteInfo }: NavbarSectionProps) => {
     });
   };
 
+  // memoized state to check if section and localSection are different
+  const isSectionUpdated =
+    JSON.stringify(section) !== JSON.stringify(localSection);
+
   return (
     <div
       className={clsx(
-        "w-full border-b border-black relative",
+        "w-full relative",
         isDeleting && "animate-pulse bg-red-200"
       )}
     >
@@ -50,6 +51,11 @@ const NavbarItem = ({ section, content, siteInfo }: NavbarSectionProps) => {
           <SheetHeader>
             <SheetTitle>Edit Navbar Section</SheetTitle>
           </SheetHeader>
+          {isSectionUpdated && (
+            <p className='text-sm bg-bubble-gum text-black border border-black py-1 px-2 rounded-full self-start'>
+              You have unsaved changes
+            </p>
+          )}
           <p>Heading</p>
           <Input
             name='heading'
@@ -106,49 +112,7 @@ const NavbarItem = ({ section, content, siteInfo }: NavbarSectionProps) => {
           </button>
         </SheetContent>
       </Sheet>
-      <div className='max-w-5xl mx-auto py-5 w-full flex justify-between content-center'>
-        <div>
-          {section.data.showAvatar && userProfile && (
-            <div className='flex items-center mb-2'>
-              <img
-                src={userProfile.profile_url}
-                alt='avatar'
-                className='rounded-full aspect-square h-7 border border-black mr-2'
-              />
-              <p className='text-lg'>{userProfile.display_name}</p>
-            </div>
-          )}
-          {section.data.heading && (
-            <h1 className='text-3xl font-bold'>{section.data.heading}</h1>
-          )}
-        </div>
-        {section.data.captureEmail && (
-          <form
-            className='flex items-end'
-            onSubmit={(e) => {
-              e.preventDefault();
-              toast({
-                title: "Email captured!",
-                description: "We have captured your email.",
-              });
-            }}
-          >
-            <Input
-              type='email'
-              placeholder='your email'
-              className='mr-2'
-              name='email'
-              required
-            />
-            <button
-              className='elevate-brand text-sm whitespace-nowrap'
-              type='submit'
-            >
-              {section.data.captureEmailText || "Subscribe"}
-            </button>
-          </form>
-        )}
-      </div>
+      <NavbarView common={content.common} section={localSection} />
     </div>
   );
 };
