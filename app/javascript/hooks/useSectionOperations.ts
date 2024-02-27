@@ -13,7 +13,7 @@ export const useSectionOperations = (
   const { updateWebsite } = useWebsitesStore();
   const { toast } = useToast();
 
-  const handleUpdateSection = async (updatedSection) => {
+  const handleUpdateSection = async (updatedSection: Section) => {
     setIsUpdating(true);
     const newSections = content.sections.map((s) =>
       s.id === updatedSection.id ? updatedSection : s

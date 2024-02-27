@@ -118,7 +118,12 @@ function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
         }
         if (isFooterSection(section)) {
           return (
-            <FooterItem content={content} section={section} key={section.id} />
+            <FooterItem
+              siteInfo={siteInfo}
+              content={content}
+              section={section}
+              key={section.id}
+            />
           );
         }
 

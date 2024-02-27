@@ -32,7 +32,6 @@ const NavbarItem = ({ section, content, siteInfo }: NavbarSectionProps) => {
     });
   };
 
-  // memoized state to check if section and localSection are different
   const isSectionUpdated =
     JSON.stringify(section) !== JSON.stringify(localSection);
 
@@ -100,7 +99,7 @@ const NavbarItem = ({ section, content, siteInfo }: NavbarSectionProps) => {
           <button
             disabled={isUpdating}
             className='elevate-brand mt-auto'
-            onClick={() => handleUpdateSection(localSection)}
+            onClick={async () => await handleUpdateSection(localSection)}
           >
             {isUpdating ? "Updating..." : "Save Changes"}
           </button>
