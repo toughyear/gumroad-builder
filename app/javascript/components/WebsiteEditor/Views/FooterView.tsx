@@ -1,9 +1,8 @@
 import React from "react";
-import { FooterSection, ContentParsed } from "../../../types/website";
+import { FooterSection } from "../../../types/website";
 
 interface FooterViewProps {
   section: FooterSection;
-  content: ContentParsed;
 }
 
 const FooterView: React.FC<FooterViewProps> = ({ section }) => {

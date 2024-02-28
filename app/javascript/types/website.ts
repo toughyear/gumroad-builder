@@ -64,10 +64,15 @@ export type FooterSection = {
   data: FooterSectionData;
 };
 
+export type RichTextSectionData = {
+  dom: string;
+  hideBottomBorder?: boolean;
+};
+
 export type RichTextSection = {
   id: string;
   type: SectionType.rich_text;
-  data: string;
+  data: RichTextSectionData;
 };
 
 export type Section =

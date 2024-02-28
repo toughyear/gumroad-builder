@@ -1,4 +1,3 @@
-// FooterItem.tsx
 import React, { useState } from "react";
 import {
   Sheet,
@@ -10,17 +9,21 @@ import {
 import { Input } from "../../ui/Input";
 import { Switch } from "../../ui/Switch";
 import { Pencil } from "lucide-react";
-import { FooterSection, ContentParsed, Website } from "../../../types/website";
+import {
+  RichTextSection,
+  ContentParsed,
+  Website,
+} from "../../../types/website";
 import { useSectionOperations } from "../../../hooks/useSectionOperations";
-import FooterView from "../Views/FooterView";
+import RichTextView from "../Views/RichTextView";
 
-interface FooterSectionProps {
+interface RichTextSectionProps {
   content: ContentParsed;
-  section: FooterSection;
+  section: RichTextSection;
   siteInfo: Website;
 }
 
-const FooterItem: React.FC<FooterSectionProps> = ({
+const RichTextItem: React.FC<RichTextSectionProps> = ({
   section,
   content,
   siteInfo,
@@ -35,7 +38,6 @@ const FooterItem: React.FC<FooterSectionProps> = ({
       data: { ...localSection.data, [e.target.name]: e.target.value },
     });
   };
-
   const isSectionUpdated =
     JSON.stringify(section) !== JSON.stringify(localSection);
 
@@ -47,7 +49,7 @@ const FooterItem: React.FC<FooterSectionProps> = ({
         </SheetTrigger>
         <SheetContent className='text-black flex flex-col'>
           <SheetHeader>
-            <SheetTitle>Edit Footer Section</SheetTitle>
+            <SheetTitle>Edit RichText Section</SheetTitle>
           </SheetHeader>
           {isSectionUpdated && (
             <p className='text-sm bg-bubble-gum text-black border border-black py-1 px-2 rounded-full self-start'>
@@ -55,37 +57,26 @@ const FooterItem: React.FC<FooterSectionProps> = ({
             </p>
           )}
           <div className='flex flex-col gap-4'>
-            <p>Footer Text</p>
+            <div className='flex items-center justify-between'>
+              <p>Hide Border at bottom of section</p>
+              <Switch
+                checked={localSection.data.hideBottomBorder || false}
+                onCheckedChange={(checked) =>
+                  setLocalSection({
+                    ...localSection,
+                    data: { ...localSection.data, hideBottomBorder: checked },
+                  })
+                }
+              />
+            </div>
+            <p>Rich Text</p>
             <Input
-              name='text'
-              value={localSection.data.text || ""}
+              name='dom'
+              value={localSection.data.dom || ""}
               onChange={handleChange}
             />
-            <div className='flex items-center justify-between'>
-              <p>Show Powered By</p>
-              <Switch
-                checked={localSection.data.showPoweredBy || false}
-                onCheckedChange={(checked) =>
-                  setLocalSection({
-                    ...localSection,
-                    data: { ...localSection.data, showPoweredBy: checked },
-                  })
-                }
-              />
-            </div>
-            <div className='flex items-center justify-between'>
-              <p>Show Copyright</p>
-              <Switch
-                checked={localSection.data.showCopyright || false}
-                onCheckedChange={(checked) =>
-                  setLocalSection({
-                    ...localSection,
-                    data: { ...localSection.data, showCopyright: checked },
-                  })
-                }
-              />
-            </div>
           </div>
+
           <button
             disabled={isUpdating}
             className='elevate-brand mt-auto'
@@ -101,9 +92,9 @@ const FooterItem: React.FC<FooterSectionProps> = ({
           </button>
         </SheetContent>
       </Sheet>
-      <FooterView section={localSection} />
+      <RichTextView section={localSection} />
     </div>
   );
 };
 
-export default FooterItem;
+export default RichTextItem;

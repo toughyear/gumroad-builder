@@ -14,6 +14,7 @@ import { useToast } from "../../../hooks/useToast";
 import NavbarItem from "./NavbarItem";
 import FooterItem from "./FooterItem";
 import AddSection from "./AddSection";
+import RichTextItem from "./RichTextItem";
 
 type ContentEditorProps = {
   siteInfo: Website;
@@ -129,7 +130,16 @@ function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
         }
 
         if (isRichTextSection(section)) {
-          return <>{section.data}</>;
+          return (
+            <>
+              <RichTextItem
+                siteInfo={siteInfo}
+                content={content}
+                section={section}
+                key={section.id}
+              />
+            </>
+          );
         }
 
         return (
