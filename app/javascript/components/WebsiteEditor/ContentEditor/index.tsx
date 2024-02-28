@@ -6,6 +6,7 @@ import {
   Website,
   isFooterSection,
   isNavbarSection,
+  isRichTextSection,
 } from "../../../types/website";
 import { useWebsitesStore } from "../../../store/useWebsitesStore";
 import { useToast } from "../../../hooks/useToast";
@@ -125,6 +126,10 @@ function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
               key={section.id}
             />
           );
+        }
+
+        if (isRichTextSection(section)) {
+          return <>{section.data}</>;
         }
 
         return (

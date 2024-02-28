@@ -64,7 +64,17 @@ export type FooterSection = {
   data: FooterSectionData;
 };
 
-export type Section = GenericSection | NavbarSection | FooterSection;
+export type RichTextSection = {
+  id: string;
+  type: SectionType.rich_text;
+  data: string;
+};
+
+export type Section =
+  | GenericSection
+  | NavbarSection
+  | FooterSection
+  | RichTextSection;
 
 // type guards
 export function isNavbarSection(section: Section): section is NavbarSection {
@@ -72,6 +82,11 @@ export function isNavbarSection(section: Section): section is NavbarSection {
 }
 export function isFooterSection(section: Section): section is FooterSection {
   return section.type === SectionType.footer;
+}
+export function isRichTextSection(
+  section: Section
+): section is RichTextSection {
+  return section.type === SectionType.rich_text;
 }
 export function isGenericSection(section: Section): section is GenericSection {
   return (

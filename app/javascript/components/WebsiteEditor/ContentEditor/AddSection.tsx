@@ -12,7 +12,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from "../../ui/select";
+} from "../../ui/Select";
 
 type AddSectionProps = {
   sectionId: string;
@@ -46,9 +46,7 @@ function AddSection({ sectionId, addSection }: AddSectionProps) {
         } as FooterSectionData;
         break;
       case SectionType.rich_text:
-        newSectionData.data = {
-          content: "New Rich Text Section",
-        };
+        newSectionData.data = "New Rich Text Section";
         break;
       default:
         break;
