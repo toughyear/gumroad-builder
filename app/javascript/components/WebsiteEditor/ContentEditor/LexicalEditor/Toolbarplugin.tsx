@@ -73,6 +73,9 @@ enum SupportedBlockTypes {
   Code = "code",
   H1 = "h1",
   H2 = "h2",
+  H3 = "h3",
+  H4 = "h4",
+  H5 = "h5",
   UL = "ul",
   OL = "ol",
 }
@@ -424,25 +427,15 @@ export default function ToolbarPlugin() {
     }
   };
 
-  const formatLargeHeading = () => {
-    console.log("formatLargeHeading");
-    if (blockType !== SupportedBlockTypes.H1) {
-      editor.update(() => {
-        const selection = $getSelection();
-        if ($isRangeSelection(selection)) {
-          $setBlocksType(selection, () => $createHeadingNode("h1"));
-        }
-      });
-    }
-  };
-
-  const formatSmallHeading = () => {
-    if (blockType !== "h2") {
+  const formatAnyHeading = (headingType: SupportedBlockTypes) => {
+    if (blockType !== headingType) {
       editor.update(() => {
         const selection = $getSelection();
 
         if ($isRangeSelection(selection)) {
-          $setBlocksType(selection, () => $createHeadingNode("h2"));
+          $setBlocksType(selection, () =>
+            $createHeadingNode(headingType as any)
+          );
         }
       });
     }
@@ -522,12 +515,12 @@ export default function ToolbarPlugin() {
             if (value === "paragraph") {
               formatParagraph();
             }
-            if (value === "h1") {
-              formatLargeHeading();
+            if (
+              (Object.values(SupportedBlockTypes) as string[]).includes(value)
+            ) {
+              formatAnyHeading(value as SupportedBlockTypes);
             }
-            if (value === "h2") {
-              formatSmallHeading();
-            }
+
             if (value === "ul") {
               formatBulletList();
             }
@@ -548,7 +541,8 @@ export default function ToolbarPlugin() {
           <SelectContent>
             <SelectItem value='paragraph'>Normal</SelectItem>
             <SelectItem value='h1'>Large Heading</SelectItem>
-            <SelectItem value='h2'>Small Heading</SelectItem>
+            <SelectItem value='h2'>H2 Heading</SelectItem>
+            <SelectItem value='h3'>H3 Heading</SelectItem>
             <SelectItem value='ul'>Bullet List</SelectItem>
             <SelectItem value='ol'>Numbered List</SelectItem>
             <SelectItem value='quote'>Quote</SelectItem>

@@ -70,7 +70,7 @@ export default function Editor() {
           namespace: "lexical-editor",
           theme: {
             root: "p-4 border-slate-500 border-2 rounded h-full min-h-[200px] focus:outline-none focus-visible:border-black",
-            link: "cursor-pointer",
+            link: "cursor-pointer text-blue-500 hover:underline",
             text: {
               bold: "font-semibold",
               underline: "underline",
