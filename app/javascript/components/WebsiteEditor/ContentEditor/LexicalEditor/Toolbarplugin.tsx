@@ -15,6 +15,7 @@ import {
   Italic,
   Underline,
   Strikethrough,
+  Pen,
 } from "lucide-react";
 import {
   CAN_REDO_COMMAND,
@@ -203,11 +204,14 @@ function FloatingLinkEditor({ editor }) {
   }, [isEditMode]);
 
   return (
-    <div ref={editorRef} className='link-editor'>
+    <div
+      ref={editorRef}
+      className='fixed w-full max-w-72 border border-black bg-white px-2 py-1 rounded-md'
+    >
       {isEditMode ? (
         <input
           ref={inputRef}
-          className='link-input'
+          className='w-full bg-white border-b border-black focus:outline-none'
           value={linkUrl}
           onChange={(event) => {
             setLinkUrl(event.target.value);
@@ -228,22 +232,27 @@ function FloatingLinkEditor({ editor }) {
           }}
         />
       ) : (
-        <>
-          <div className='link-input'>
-            <a href={linkUrl} target='_blank' rel='noopener noreferrer'>
-              {linkUrl}
-            </a>
-            <div
-              className='link-edit'
-              role='button'
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                setEditMode(true);
-              }}
-            />
+        <div className='flex items-center'>
+          <a
+            href={linkUrl}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='text-blue-500'
+          >
+            {linkUrl}
+          </a>
+          <div
+            className='ml-auto flex items-center group aspect-square p-1 cursor-pointer'
+            role='button'
+            tabIndex={0}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => {
+              setEditMode(true);
+            }}
+          >
+            <Pen className='h-8 text-black stroke-[1.5]' />
           </div>
-        </>
+        </div>
       )}
     </div>
   );
@@ -612,8 +621,7 @@ export default function ToolbarPlugin() {
           >
             <Link />
           </button>
-          {isLink &&
-            createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
+          {isLink && <FloatingLinkEditor editor={editor} />}
           <Divider />
           <button
             onClick={() => {
