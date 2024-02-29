@@ -71,8 +71,9 @@ const RichTextItem: React.FC<RichTextSectionProps> = ({
               />
             </div>
           </div>
-          <LexicalEditor />
-
+          <div>
+            <LexicalEditor />
+          </div>
           <button
             disabled={isUpdating}
             className='elevate-brand mt-auto'
