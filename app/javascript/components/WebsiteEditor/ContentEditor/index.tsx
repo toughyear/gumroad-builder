@@ -131,14 +131,18 @@ function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
 
         if (isRichTextSection(section)) {
           return (
-            <>
+            <React.Fragment key={section.id}>
               <RichTextItem
                 siteInfo={siteInfo}
                 content={content}
                 section={section}
                 key={section.id}
               />
-            </>
+              <AddSection
+                sectionId={section.id}
+                addSection={addSectionHandler}
+              />
+            </React.Fragment>
           );
         }
 

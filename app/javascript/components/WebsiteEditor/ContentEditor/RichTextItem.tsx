@@ -16,6 +16,7 @@ import {
 } from "../../../types/website";
 import { useSectionOperations } from "../../../hooks/useSectionOperations";
 import RichTextView from "../Views/RichTextView";
+import LexicalEditor from "./LexicalEditor/index";
 
 interface RichTextSectionProps {
   content: ContentParsed;
@@ -47,7 +48,7 @@ const RichTextItem: React.FC<RichTextSectionProps> = ({
         <SheetTrigger className='absolute top-5 left-5 elevate-outline !p-2'>
           <Pencil className='stroke-[1.5]' />
         </SheetTrigger>
-        <SheetContent className='text-black flex flex-col'>
+        <SheetContent className='text-black flex flex-col w-full sm:max-w-2xl'>
           <SheetHeader>
             <SheetTitle>Edit RichText Section</SheetTitle>
           </SheetHeader>
@@ -69,13 +70,8 @@ const RichTextItem: React.FC<RichTextSectionProps> = ({
                 }
               />
             </div>
-            <p>Rich Text</p>
-            <Input
-              name='dom'
-              value={localSection.data.dom || ""}
-              onChange={handleChange}
-            />
           </div>
+          <LexicalEditor />
 
           <button
             disabled={isUpdating}
