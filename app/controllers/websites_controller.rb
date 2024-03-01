@@ -1,7 +1,7 @@
 class WebsitesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_website, only: [:show, :update, :destroy]
   before_action :authenticate_user, only: [:index, :create, :update, :destroy]
+  before_action :set_website, only: [:show, :update, :destroy]
 
   # GET /websites
   def index
@@ -47,11 +47,21 @@ class WebsitesController < ApplicationController
       begin
         # Try to find the website by ID or fallback to finding by URL if ID is not found
         @website = Website.find_by(id: params[:id]) || Website.find_by(url: params[:id])
-        render json: { error: 'Website not found' }, status: :not_found if @website.nil?
+        if @website.nil?
+          render json: { error: 'Website not found' }, status: :not_found
+          return
+        end
+
+        # Check if the website is not published and if the user is not authenticated
+        if !@website.published? && @current_user_id.nil?
+          render json: { error: 'Unauthorized' }, status: :unauthorized
+          return
+        end
       rescue => e
         render json: { error: e.message }, status: :internal_server_error
       end
     end
+
 
     def authenticate_user
       access_token = request.headers['Authorization']

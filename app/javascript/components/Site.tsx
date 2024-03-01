@@ -26,8 +26,28 @@ function Site(props: SiteProps) {
     document.title = website?.title || "Gumroad Pages";
   }, [website]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error || !website) return <div>Error: {error}</div>;
+  if (loading)
+    return (
+      <div className='w-full h-screen flex items-center justify-center'>
+        ...
+      </div>
+    );
+  if (error || !website)
+    return (
+      <div className='w-full h-screen flex items-center justify-center'>
+        <div className='border border-black py-2 px-5 flex flex-col rounded-lg font-mono'>
+          <p className='text-xl font-bold'>
+            {" "}
+            <span className='text-red-500'>404:</span> Deployment Not Found
+          </p>
+          <hr />
+          <p className='mt-2 max-w-sm'>
+            {error}. Either the URL is incorrect or the deployment has been
+            unpublished by owner.
+          </p>
+        </div>
+      </div>
+    );
 
   const contentParsed: ContentParsed = JSON.parse(website.content);
 
