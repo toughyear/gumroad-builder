@@ -48,7 +48,7 @@ const RichTextItem: React.FC<RichTextSectionProps> = ({
         <SheetTrigger className='absolute top-5 left-5 elevate-outline !p-2'>
           <Pencil className='stroke-[1.5]' />
         </SheetTrigger>
-        <SheetContent className='text-black flex flex-col w-full sm:max-w-2xl'>
+        <SheetContent className='text-black flex flex-col h-screen overflow-y-scroll w-full sm:max-w-2xl'>
           <SheetHeader>
             <SheetTitle>Edit RichText Section</SheetTitle>
           </SheetHeader>

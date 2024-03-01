@@ -202,6 +202,24 @@ select.code-language {
   background-size: contain;
 }
 
-#rich-text-view h1 {
-  @apply text-7xl;
+#rich-text-view {
+  h1 {
+    @apply text-7xl;
+  }
+
+  strong {
+    @apply font-black;
+  }
+
+  img {
+    @apply mx-auto border border-black;
+  }
+
+  blockquote {
+    @apply border-bubble-gum;
+  }
+
+  pre {
+    @apply bg-bubble-gum/10 border border-bubble-gum p-4 rounded-lg;
+  }
 }

@@ -660,8 +660,21 @@ export default function ToolbarPlugin() {
 
               const srcfile = prompt("Enter the URL of the image:");
 
+              if (srcfile === null) {
+                const useFallback = confirm(
+                  "Do you want to use a default image?"
+                );
+                if (useFallback) {
+                  editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                    src: fallback,
+                    altText: "Image",
+                  });
+                }
+                return;
+              }
+
               editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                src: srcfile || fallback,
+                src: srcfile,
                 altText: "Image",
               });
             }}
