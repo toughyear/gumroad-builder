@@ -21,9 +21,13 @@ import ToolbarPlugin from "./Toolbarplugin";
 import AutoLinkPlugin from "./AutoLinkPlugin";
 import CodeHighlightPlugin from "./CodeHighlightPlugin";
 import { ImageNode } from "./Nodes/ImageNode";
+import { RichTextSection } from "../../../../types/website";
+import UpdateDOMPlugin from "./UpdateDOMPlugin";
 
 type LexicalEditorProps = {
   config: Parameters<typeof LexicalComposer>["0"]["initialConfig"];
+  setSection: React.Dispatch<React.SetStateAction<RichTextSection>>;
+  initialDOMString?: string;
 };
 
 const codeHighlightTheme = {
@@ -60,8 +64,10 @@ const codeHighlightTheme = {
 };
 
 export function LexicalEditor(props: LexicalEditorProps) {
+  const { setSection, config, initialDOMString } = props;
+
   return (
-    <LexicalComposer initialConfig={props.config}>
+    <LexicalComposer initialConfig={config}>
       <ToolbarPlugin />
       <RichTextPlugin
         contentEditable={<ContentEditable />}
@@ -76,6 +82,10 @@ export function LexicalEditor(props: LexicalEditorProps) {
       <ImagePlugin captionsEnabled={true} />
       <AutoFocusPlugin />
       <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      <UpdateDOMPlugin
+        setSection={setSection}
+        initialDOMString={initialDOMString}
+      />
     </LexicalComposer>
   );
 }
@@ -95,7 +105,15 @@ const Placeholder = () => {
   );
 };
 
-export default function Editor() {
+interface MainEditorProps {
+  setSection: React.Dispatch<React.SetStateAction<RichTextSection>>;
+  initialDOMString?: string;
+}
+
+export default function Editor({
+  setSection,
+  initialDOMString,
+}: MainEditorProps) {
   return (
     <div
       id='editor-wrapper'
@@ -149,6 +167,8 @@ export default function Editor() {
             console.log(error);
           },
         }}
+        setSection={setSection}
+        initialDOMString={initialDOMString}
       />
     </div>
   );

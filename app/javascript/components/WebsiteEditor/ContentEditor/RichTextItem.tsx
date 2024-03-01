@@ -72,7 +72,10 @@ const RichTextItem: React.FC<RichTextSectionProps> = ({
             </div>
           </div>
           <div>
-            <LexicalEditor />
+            <LexicalEditor
+              setSection={setLocalSection}
+              initialDOMString={section.data.dom}
+            />
           </div>
           <button
             disabled={isUpdating}

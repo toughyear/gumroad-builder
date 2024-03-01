@@ -15,7 +15,10 @@ function RichTextView({ section }: RichTextViewProps) {
         !hideBottomBorder && "border-black border-b"
       )}
     >
-      RichTextView: {dom}
+      <div
+        dangerouslySetInnerHTML={{ __html: dom }}
+        className='max-w-5xl mx-auto py-5 w-full flex flex-col'
+      />
     </div>
   );
 }
