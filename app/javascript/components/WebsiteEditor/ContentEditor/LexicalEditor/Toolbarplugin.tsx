@@ -4,7 +4,7 @@ import React from "react";
 import {
   RotateCcw,
   RotateCw,
-  ChevronDown,
+  FileImage,
   AlignLeft,
   AlignCenter,
   AlignRight,
@@ -45,7 +45,7 @@ import {
   $isListNode,
   ListNode,
 } from "@lexical/list";
-import { createPortal } from "react-dom";
+import { INSERT_IMAGE_COMMAND } from "./ImagePlugin";
 import {
   $createHeadingNode,
   $createQuoteNode,
@@ -652,7 +652,24 @@ export default function ToolbarPlugin() {
             aria-label='Justify Align'
           >
             <AlignJustify />
-          </button>{" "}
+          </button>
+          <button
+            onClick={() => {
+              const fallback =
+                "https://images.pexels.com/photos/19324900/pexels-photo-19324900/free-photo-of-fluffy-pampas-grass.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+
+              const srcfile = prompt("Enter the URL of the image:");
+
+              editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                src: srcfile || fallback,
+                altText: "Image",
+              });
+            }}
+            className='toolbar-item'
+            aria-label='Upload Image'
+          >
+            <FileImage />
+          </button>
         </>
       )}
     </div>

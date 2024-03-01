@@ -14,11 +14,13 @@ import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import ImagePlugin from "./ImagePlugin";
 
 import React from "react";
 import ToolbarPlugin from "./Toolbarplugin";
 import AutoLinkPlugin from "./AutoLinkPlugin";
 import CodeHighlightPlugin from "./CodeHighlightPlugin";
+import { ImageNode } from "./Nodes/ImageNode";
 
 type LexicalEditorProps = {
   config: Parameters<typeof LexicalComposer>["0"]["initialConfig"];
@@ -71,6 +73,7 @@ export function LexicalEditor(props: LexicalEditorProps) {
       <CodeHighlightPlugin />
       <ListPlugin />
       <LinkPlugin />
+      <ImagePlugin captionsEnabled={true} />
       <AutoFocusPlugin />
       <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
     </LexicalComposer>
@@ -102,7 +105,7 @@ export default function Editor() {
         config={{
           namespace: "lexical-editor",
           theme: {
-            root: "p-4 border-slate-500 border-2 rounded h-full min-h-[200px] focus:outline-none focus-visible:border-black",
+            root: "p-4 border-black border rounded h-full max-h-[600px] overflow-y-scroll min-h-[200px] focus:outline-none focus-visible:border-black",
             link: "cursor-pointer text-blue-500 hover:underline",
             text: {
               bold: "font-semibold",
@@ -140,6 +143,7 @@ export default function Editor() {
             TableRowNode,
             AutoLinkNode,
             LinkNode,
+            ImageNode,
           ],
           onError: (error) => {
             console.log(error);
