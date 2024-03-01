@@ -201,3 +201,7 @@ select.code-language {
   line-height: 16px;
   background-size: contain;
 }
+
+#rich-text-view h1 {
+  @apply text-7xl;
+}
