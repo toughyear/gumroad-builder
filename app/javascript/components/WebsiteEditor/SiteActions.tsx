@@ -146,6 +146,8 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
         </button>
         <p>Title</p>
         <Input name='title' value={siteInfo.title} onChange={handleChange} />
+        <p>Subdomain</p>
+        <Input name='url' value={siteInfo.url} onChange={handleChange} />
         <p>Theme</p>
         <Select value='default'>
           <SelectTrigger className='w-[180px]'>
