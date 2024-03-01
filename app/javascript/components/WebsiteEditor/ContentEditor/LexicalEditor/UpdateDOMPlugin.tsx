@@ -30,14 +30,21 @@ function UpdateDOMPlugin(props: UpdateDOMPluginProps) {
       }
     );
 
-    // Check if initialDOMString is provided and valid
+    // Check if initialDOMString is provided and valid and is different from the current DOM
     if (initialDOMString) {
       editor.update(() => {
+        const currentDOM = $generateHtmlFromNodes(editor, null);
+        if (currentDOM === initialDOMString) {
+          return;
+        }
+
         const parser = new DOMParser();
         const parsedDOM = parser.parseFromString(initialDOMString, "text/html");
         const nodes = $generateNodesFromDOM(editor, parsedDOM);
+
         // Select the root
         $getRoot().select();
+        $getRoot().clear();
         // Insert them at a selection.
         $insertNodes(nodes);
       });

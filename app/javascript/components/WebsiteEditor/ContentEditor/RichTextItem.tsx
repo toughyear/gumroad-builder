@@ -74,7 +74,7 @@ const RichTextItem: React.FC<RichTextSectionProps> = ({
           <div>
             <LexicalEditor
               setSection={setLocalSection}
-              initialDOMString={section.data.dom}
+              initialDOMString={localSection.data.dom}
             />
           </div>
           <button
