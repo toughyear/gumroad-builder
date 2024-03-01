@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_21_144207) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_01_224612) do
   create_table "websites", id: :string, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.boolean "published", default: false
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_144207) do
     t.integer "version", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["url"], name: "index_websites_on_url", unique: true
   end
 
 end

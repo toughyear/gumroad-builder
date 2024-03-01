@@ -1,20 +1,24 @@
 import React from "react";
 import Routes from "../routes";
-import Navbar from "./Navbar";
 import useInitWebsites from "../hooks/useInitWebsites";
 import { Toaster } from "../components/ui/Toaster";
+import Site from "./Site";
 
-export default (props) => {
+export default () => {
   useInitWebsites();
 
   const url = window.location.hostname;
-  const isProjectSubdomain = url.startsWith("site-");
+  // Use regex to match the pattern `site-` followed by any character until a dot or port separator
+  const regex = /site-([^.]+)/;
+  const match = url.match(regex);
 
-  if (isProjectSubdomain) {
+  // Check if match is not null and has the expected group
+  if (match && match[1]) {
+    const subdomain = match[1];
+
     return (
       <div className='bg-white'>
-        you are in a project subdomain
-        <p>{url}</p>
+        <Site subdomain={subdomain} />
         <Toaster />
       </div>
     );

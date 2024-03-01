@@ -45,9 +45,9 @@ class WebsitesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_website
       begin
-        @website = Website.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Website not found' }, status: :not_found
+        # Try to find the website by ID or fallback to finding by URL if ID is not found
+        @website = Website.find_by(id: params[:id]) || Website.find_by(url: params[:id])
+        render json: { error: 'Website not found' }, status: :not_found if @website.nil?
       rescue => e
         render json: { error: e.message }, status: :internal_server_error
       end
