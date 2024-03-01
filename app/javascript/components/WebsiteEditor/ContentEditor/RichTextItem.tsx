@@ -17,6 +17,7 @@ import {
 import { useSectionOperations } from "../../../hooks/useSectionOperations";
 import RichTextView from "../Views/RichTextView";
 import LexicalEditor from "./LexicalEditor/index";
+import clsx from "clsx";
 
 interface RichTextSectionProps {
   content: ContentParsed;
@@ -33,17 +34,16 @@ const RichTextItem: React.FC<RichTextSectionProps> = ({
   const { isUpdating, isDeleting, handleUpdateSection, handleDeleteSection } =
     useSectionOperations(siteInfo, content, section);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalSection({
-      ...localSection,
-      data: { ...localSection.data, [e.target.name]: e.target.value },
-    });
-  };
   const isSectionUpdated =
     JSON.stringify(section) !== JSON.stringify(localSection);
 
   return (
-    <div className='w-full relative'>
+    <div
+      className={clsx(
+        "w-full relative",
+        isDeleting && "bg-red-200 animate-pulse"
+      )}
+    >
       <Sheet>
         <SheetTrigger className='absolute top-5 left-5 elevate-outline !p-2'>
           <Pencil className='stroke-[1.5]' />

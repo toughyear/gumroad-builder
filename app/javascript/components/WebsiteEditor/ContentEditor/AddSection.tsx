@@ -3,6 +3,7 @@ import { PlusCircle } from "lucide-react";
 import {
   FooterSectionData,
   NavbarSectionData,
+  RichTextSection,
   Section,
   SectionType,
 } from "../../../types/website";
@@ -46,7 +47,9 @@ function AddSection({ sectionId, addSection }: AddSectionProps) {
         } as FooterSectionData;
         break;
       case SectionType.rich_text:
-        newSectionData.data = "New Rich Text Section";
+        (
+          newSectionData as RichTextSection
+        ).data.dom = `<h1 class="text-4xl font-bold" dir="ltr"><span style="white-space: pre-wrap;">New Rich Text</span></h1><p dir="ltr"><span style="white-space: pre-wrap;">Write anything you want! </span></p>`;
         break;
       default:
         break;
@@ -72,6 +75,7 @@ function AddSection({ sectionId, addSection }: AddSectionProps) {
           <SelectItem value={SectionType.navbar}>Navbar</SelectItem>
           <SelectItem value={SectionType.footer}>Footer</SelectItem>
           <SelectItem value={SectionType.rich_text}>Rich Text</SelectItem>
+          <SelectItem value={SectionType.product}>Product</SelectItem>
         </SelectContent>
       </Select>
     </div>
