@@ -3,6 +3,7 @@ import { PlusCircle } from "lucide-react";
 import {
   FooterSectionData,
   NavbarSectionData,
+  ProductSection,
   RichTextSection,
   Section,
   SectionType,
@@ -14,6 +15,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "../../ui/Select";
+import useProducts from "../../../hooks/useProducts";
 
 type AddSectionProps = {
   sectionId: string;
@@ -23,8 +25,10 @@ type AddSectionProps = {
 function AddSection({ sectionId, addSection }: AddSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const { products } = useProducts();
+
   const handleAddSection = (type: SectionType) => {
-    const newSectionData: Section = {
+    const newSection: Section = {
       id: uuidv4(),
       type: type,
       data: {}, // Default data for each section type
@@ -33,14 +37,14 @@ function AddSection({ sectionId, addSection }: AddSectionProps) {
     // Customize the default data for each section type
     switch (type) {
       case SectionType.navbar:
-        newSectionData.data = {
+        newSection.data = {
           heading: "New Navbar",
           showAvatar: false,
           captureEmail: true,
         } as NavbarSectionData;
         break;
       case SectionType.footer:
-        newSectionData.data = {
+        newSection.data = {
           text: "New Footer",
           showPoweredBy: true,
           showCopyright: true,
@@ -48,14 +52,29 @@ function AddSection({ sectionId, addSection }: AddSectionProps) {
         break;
       case SectionType.rich_text:
         (
-          newSectionData as RichTextSection
+          newSection as RichTextSection
         ).data.dom = `<h1 class="text-4xl font-bold" dir="ltr"><span style="white-space: pre-wrap;">New Rich Text</span></h1><p dir="ltr"><span style="white-space: pre-wrap;">Write anything you want! </span></p>`;
+        break;
+      case SectionType.product:
+        if (products === null || products.length === 0) {
+          alert(
+            "You need to have at least one product on your Gumroad account."
+          );
+          return;
+        }
+
+        (newSection as ProductSection).data = {
+          selectedProductId: products[0].id,
+          showPrice: true,
+          showDescription: true,
+          showThumbnail: true,
+        };
         break;
       default:
         break;
     }
 
-    addSection(sectionId, newSectionData);
+    addSection(sectionId, newSection);
   };
 
   return (

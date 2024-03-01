@@ -75,11 +75,25 @@ export type RichTextSection = {
   data: RichTextSectionData;
 };
 
+export type ProductSectionData = {
+  selectedProductId: string;
+  showPrice: boolean;
+  showDescription: boolean;
+  showThumbnail: boolean;
+};
+
+export type ProductSection = {
+  id: string;
+  type: SectionType.product;
+  data: ProductSectionData;
+};
+
 export type Section =
   | GenericSection
   | NavbarSection
   | FooterSection
-  | RichTextSection;
+  | RichTextSection
+  | ProductSection;
 
 // type guards
 export function isNavbarSection(section: Section): section is NavbarSection {
@@ -92,6 +106,9 @@ export function isRichTextSection(
   section: Section
 ): section is RichTextSection {
   return section.type === SectionType.rich_text;
+}
+export function isProductSection(section: Section): section is ProductSection {
+  return section.type === SectionType.product;
 }
 export function isGenericSection(section: Section): section is GenericSection {
   return (

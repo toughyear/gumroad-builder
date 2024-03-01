@@ -223,3 +223,33 @@ select.code-language {
     @apply bg-bubble-gum/10 border border-bubble-gum p-4 rounded-lg;
   }
 }
+
+#product-description {
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+  blockquote {
+    @apply border-bubble-gum border-l-4 pl-4;
+  }
+  pre {
+    @apply bg-bubble-gum/10 border border-bubble-gum p-4 rounded-lg;
+  }
+  underline {
+    @apply underline;
+  }
+  strong {
+    @apply font-black;
+  }
+  em {
+    @apply italic;
+  }
+  a {
+    @apply underline text-blue-500;
+  }
+}

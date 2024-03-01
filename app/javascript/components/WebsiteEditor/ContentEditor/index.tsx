@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   ContentParsed,
   Section,
-  SectionType,
   Website,
   isFooterSection,
   isNavbarSection,
+  isProductSection,
   isRichTextSection,
 } from "../../../types/website";
 import { useWebsitesStore } from "../../../store/useWebsitesStore";
@@ -15,6 +15,7 @@ import NavbarItem from "./NavbarItem";
 import FooterItem from "./FooterItem";
 import AddSection from "./AddSection";
 import RichTextItem from "./RichTextItem";
+import ProductItem from "./ProductItem";
 
 type ContentEditorProps = {
   siteInfo: Website;
@@ -133,6 +134,23 @@ function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
           return (
             <React.Fragment key={section.id}>
               <RichTextItem
+                siteInfo={siteInfo}
+                content={content}
+                section={section}
+                key={section.id}
+              />
+              <AddSection
+                sectionId={section.id}
+                addSection={addSectionHandler}
+              />
+            </React.Fragment>
+          );
+        }
+
+        if (isProductSection(section)) {
+          return (
+            <React.Fragment key={section.id}>
+              <ProductItem
                 siteInfo={siteInfo}
                 content={content}
                 section={section}

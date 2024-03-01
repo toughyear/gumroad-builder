@@ -19,6 +19,9 @@ import {
   SelectValue,
 } from "../ui/Select";
 import { Link } from "react-router-dom";
+import useProducts from "../../hooks/useProducts";
+import useUserProfile from "../../hooks/useUserProfile";
+import { useToast } from "../../hooks/useToast";
 
 type SiteActionsProps = {
   siteInfo: Website;
@@ -27,7 +30,12 @@ type SiteActionsProps = {
 
 const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
   const { updateWebsite } = useWebsitesStore();
+  const { products } = useProducts();
+  const { profile } = useUserProfile();
+  const { toast } = useToast();
   const [updating, setUpdating] = useState(false);
+  const [refetchingGumroadUserInfo, setRefetchingGumroadUserInfo] =
+    useState(false);
   // state to track when toggling publish status
   const [togglingPublishStatus, setTogglingPublishStatus] = useState(false);
 
@@ -53,6 +61,44 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
     } catch (error) {
     } finally {
       setTogglingPublishStatus(false);
+    }
+  };
+
+  const refetchGumroadUserInfo = async () => {
+    if (products === null || profile === null) {
+      toast({
+        title: "Something went wrong!",
+        description: "You need to be logged in to refetch Gumroad user info",
+      });
+      return;
+    }
+
+    setRefetchingGumroadUserInfo(true);
+    try {
+      if (!siteInfo.id) return;
+
+      const contentParsed = JSON.parse(siteInfo.content);
+      const updatedContent = {
+        ...contentParsed,
+        common: {
+          userProfile: profile,
+          products: products,
+        },
+      };
+
+      await updateWebsite(siteInfo.id, {
+        content: JSON.stringify(updatedContent),
+      });
+
+      // refresh page
+      window.location.reload();
+    } catch (error) {
+      toast({
+        title: "Something went wrong!",
+        description: "Failed to refetch Gumroad user info",
+      });
+    } finally {
+      setRefetchingGumroadUserInfo(false);
     }
   };
 
@@ -90,7 +136,14 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
               : "Publish"}
           </button>
         </div>
-
+        <p>Refetch Gumroad User Info</p>
+        <button
+          disabled={updating}
+          className='elevate-brand'
+          onClick={refetchGumroadUserInfo}
+        >
+          {refetchingGumroadUserInfo ? "Refetching..." : "Refetch"}
+        </button>
         <p>Title</p>
         <Input name='title' value={siteInfo.title} onChange={handleChange} />
         <p>Theme</p>
