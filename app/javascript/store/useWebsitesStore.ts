@@ -86,9 +86,11 @@ export const useWebsitesStore = create<WebsitesState>((set, get) => ({
         body: JSON.stringify(websiteData),
       });
       if (!response.ok) {
-        throw new Error("Failed to update website.");
+        const errorBody = await response.text();
+        throw new Error(`${response.status}: ${errorBody}`);
       }
-      await get().fetchWebsites(); // Refresh list after updating
+      await get().fetchWebsites(); // Refresh list after creating
+      return response.json();
     } catch (error: any) {
       set({ error: error.message });
       throw error;

@@ -46,8 +46,23 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
   const handleUpdate = async () => {
     setUpdating(true);
     if (!siteInfo.id) return;
-    await updateWebsite(siteInfo.id, siteInfo);
-    setUpdating(false);
+    try {
+      await updateWebsite(siteInfo.id, siteInfo);
+
+      toast({
+        title: "Website updated",
+        description: "Your website has been updated successfully",
+      });
+    } catch (error: any) {
+      const errorMessage =
+        error.message.split(": ")[1] || "An unexpected error occurred"; // Fallback error message
+      toast({
+        title: "Failed to update website",
+        description: errorMessage,
+      });
+    } finally {
+      setUpdating(false);
+    }
   };
 
   const togglePublishStatus = async () => {
@@ -145,9 +160,13 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
           {refetchingGumroadUserInfo ? "Refetching..." : "Refetch"}
         </button>
         <p>Title</p>
-        <Input name='title' value={siteInfo.title} onChange={handleChange} />
+        <Input
+          name='title'
+          value={siteInfo.title ?? ""}
+          onChange={handleChange}
+        />
         <p>Subdomain</p>
-        <Input name='url' value={siteInfo.url} onChange={handleChange} />
+        <Input name='url' value={siteInfo.url ?? ""} onChange={handleChange} />
         <p>Theme</p>
         <Select value='default'>
           <SelectTrigger className='w-[180px]'>

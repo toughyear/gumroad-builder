@@ -94,8 +94,10 @@ class WebsitesController < ApplicationController
       head :unauthorized unless @current_user_id
     end
 
-    # Only allow a list of trusted parameters through.
     def website_params
-      params.require(:website).permit(:title, :published, :url, :content)
+      # Only allow a list of trusted parameters through.
+      params_copy = params.require(:website).permit(:title, :published, :url, :content)
+      params_copy[:url].downcase! if params_copy[:url].present? # Ensure the URL is always lowercase
+      params_copy
     end
 end
