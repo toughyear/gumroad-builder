@@ -1,19 +1,17 @@
 class AuthController < ApplicationController
   def gumroad
-    client_id = ENV['GUMROAD_APPLICATION_ID']
-    # Use DEPLOYMENT_URL if it exists, otherwise fallback to localhost
-    base_url = ENV['DEPLOYMENT_URL'] || "http://localhost:3000"
+    base_url = "#{request.protocol}#{request.host_with_port}"
     redirect_uri = "#{base_url}/auth/gumroad/callback"
     scope = "view_profile" # Customize based on the permissions you need
+    client_id = ENV['GUMROAD_APPLICATION_ID']
     gumroad_url = "https://gumroad.com/oauth/authorize?client_id=#{client_id}&redirect_uri=#{redirect_uri}&response_type=code&scope=#{scope}"
     redirect_to gumroad_url, allow_other_host: true
   end
 
   def gumroad_callback
-    code = params[:code]
-    # Use DEPLOYMENT_URL if it exists, otherwise fallback to localhost
-    base_url = ENV['DEPLOYMENT_URL'] || "http://localhost:3000"
+    base_url = "#{request.protocol}#{request.host_with_port}"
     redirect_uri = "#{base_url}/auth/gumroad/callback"
+    code = params[:code]
 
     response = RestClient.post('https://gumroad.com/oauth/token', {
       client_id: ENV['GUMROAD_APPLICATION_ID'],
