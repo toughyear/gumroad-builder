@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import useUserProfile from "../hooks/useUserProfile";
 import useProducts from "../hooks/useProducts";
 import { useToast } from "../hooks/useToast";
+import { generateSlug } from "random-word-slugs";
+
 import {
   Dialog,
   DialogContent,
@@ -24,6 +26,10 @@ import {
 } from "./ui/Dropdown";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+import {
+  getDeploymentLinkFromSiteUrl,
+  getReadableLinkFromSiteUrl,
+} from "../utils/formats";
 
 function WebsiteList() {
   const { websites, createWebsite, deleteWebsite } = useWebsitesStore();
@@ -51,7 +57,7 @@ function WebsiteList() {
           id: uuidv4(),
           type: SectionType.navbar,
           data: {
-            heading: "My Website Heading",
+            heading: "My Awesome Product",
             subheading: "Subheading goes here...",
             showAvatar: true,
             captureEmail: true,
@@ -60,10 +66,18 @@ function WebsiteList() {
         },
         {
           id: uuidv4(),
+          type: SectionType.rich_text,
+          data: {
+            dom: "<h1>Welcome to your new website</h1><p>This is a new website created with Gumroad Sites. You can edit this text and add new sections to your website.</p>",
+            hideBottomBorder: true,
+          },
+        },
+        {
+          id: uuidv4(),
           type: SectionType.footer,
           data: {
             text: "This is the footer",
-            twitterUrl: "https://twitter.com/elonmusk/",
+            twitterUrl: "https://twitter.com/gumroad/",
             showPoweredBy: true,
             showCopyright: true,
           },
@@ -78,12 +92,22 @@ function WebsiteList() {
     const newWebsite: Partial<Website> = {
       title: newSiteTitle,
       content: JSON.stringify(startingContent),
+      url: generateSlug(),
     };
 
-    const result = await createWebsite(newWebsite);
+    try {
+      const result = await createWebsite(newWebsite);
 
-    // redirect to the new website
-    window.location.href = `/edit/${result.id}`;
+      // redirect to the new website
+      window.location.href = `/edit/${result.id}`;
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error creating your website",
+      });
+    } finally {
+      setCreating(false);
+    }
   };
 
   const handleDeleteWebsite = async (id: string) => {
@@ -191,11 +215,11 @@ function WebsiteList() {
             {website.published && (
               <a
                 className='font-mono text-black hover:underline underline-offset-2 mb-5 self-start'
-                href={`${window.location.protocol}//site-${website.url}.${window.location.host}`}
+                href={getDeploymentLinkFromSiteUrl(website.url ?? "")}
                 target='_blank'
                 rel='noreferrer'
               >
-                {`site-${website.url}.${window.location.host}`}
+                {getReadableLinkFromSiteUrl(website.url ?? "")}
               </a>
             )}
             <div className='mt-auto flex justify-between items-end'>

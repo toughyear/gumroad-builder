@@ -22,6 +22,8 @@ import { Link } from "react-router-dom";
 import useProducts from "../../hooks/useProducts";
 import useUserProfile from "../../hooks/useUserProfile";
 import { useToast } from "../../hooks/useToast";
+import { generateSlug } from "random-word-slugs";
+import { getDeploymentLinkFromSiteUrl } from "../../utils/formats";
 
 type SiteActionsProps = {
   siteInfo: Website;
@@ -69,10 +71,16 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
     if (!siteInfo.id) return;
     setTogglingPublishStatus(true);
     try {
+      siteInfo.url = siteInfo.url || generateSlug();
       await updateWebsite(siteInfo.id, {
         published: !siteInfo.published,
+        url: siteInfo.url,
       });
-      setSiteInfo({ ...siteInfo, published: !siteInfo.published });
+      setSiteInfo({
+        ...siteInfo,
+        published: !siteInfo.published,
+        url: siteInfo.url,
+      });
     } catch (error) {
     } finally {
       setTogglingPublishStatus(false);
@@ -130,7 +138,7 @@ const SiteActions = ({ siteInfo, setSiteInfo }: SiteActionsProps) => {
           {siteInfo?.published ? (
             <a
               className='elevate-brand mr-2 flex items-center'
-              href={`https://${siteInfo.url}`}
+              href={getDeploymentLinkFromSiteUrl(siteInfo.url || "")}
               target='_blank'
               rel='noreferrer'
             >

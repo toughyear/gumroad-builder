@@ -20,6 +20,7 @@
     "lucide-react": "^0.336.0",
     "luxon": "^3.4.4",
     "postcss": "^8.4.33",
+    "random-word-slugs": "^0.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.0",

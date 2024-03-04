@@ -1,6 +1,6 @@
 class Website < ApplicationRecord
   before_create :set_uuid
-  validates :url, uniqueness: true
+  validates :url, uniqueness: true, allow_nil: true
 
   private
 
