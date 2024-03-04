@@ -11,6 +11,11 @@ class WebsitesController < ApplicationController
 
   # GET /websites/:id
   def show
+    # if the website is not published and the user is not the owner, return 404
+    if !@website.published && @website.owner_id != @current_user_id
+      render json: { error: 'Website not found' }, status: :not_found
+      return
+    end
     render json: @website
   end
 
@@ -48,12 +53,6 @@ class WebsitesController < ApplicationController
         # Try to find the website by ID or fallback to finding by URL if ID is not found
         @website = Website.find_by(id: params[:id]) || Website.find_by(url: params[:id])
         if @website.nil?
-          render json: { error: 'Website not found' }, status: :not_found
-          return
-        end
-
-        # Check if the website is not published
-        if !@website.published?
           render json: { error: 'Website not found' }, status: :not_found
           return
         end
