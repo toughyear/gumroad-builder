@@ -52,9 +52,9 @@ class WebsitesController < ApplicationController
           return
         end
 
-        # Check if the website is not published and if the user is not authenticated
-        if !@website.published? && @current_user_id.nil?
-          render json: { error: 'Unauthorized' }, status: :unauthorized
+        # Check if the website is not published
+        if !@website.published?
+          render json: { error: 'Website not found' }, status: :not_found
           return
         end
       rescue => e
