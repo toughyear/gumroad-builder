@@ -1,12 +1,12 @@
 import React from "react";
 import useAuthStore from "../store/useAuthStore";
 
+export const connectToGumroad = () => {
+  window.location.href = "/auth/gumroad";
+};
+
 function Navbar() {
   const { accessToken, removeAccessToken } = useAuthStore();
-
-  const connectToGumroad = () => {
-    window.location.href = "/auth/gumroad";
-  };
 
   const logOut = () => {
     removeAccessToken();
