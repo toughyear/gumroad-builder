@@ -23,12 +23,6 @@ export default () => {
       </div>
     );
   }
-  // if subdomain exists of not form site-foo.bar but baz.bar.com, redirect to without subdomain bar.com
-  const hostSplit = window.location.host.split(".");
-  if (hostSplit.length >= 2) {
-    const host = hostSplit[hostSplit.length - 1];
-    window.location.href = `${window.location.protocol}//${host}`;
-  }
 
   return (
     <div className='bg-white'>
