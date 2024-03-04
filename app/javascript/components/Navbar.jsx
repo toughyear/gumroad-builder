@@ -15,7 +15,7 @@ function Navbar() {
 
   return (
     <div className='w-full border-b-[1px] border-black py-3'>
-      <div className='flex mx-auto max-w-5xl justify-between items-center'>
+      <div className='flex flex-col md:flex-row mx-auto max-w-5xl justify-between items-center space-y-4 md:space-y-0'>
         <a className='flex items-center text-xl' href='/'>
           <img
             src={window.location.origin + "/gumroad_logo.png"}
