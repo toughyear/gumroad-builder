@@ -109,7 +109,7 @@ function WebsiteList() {
     <div className='grid grid-cols-3 gap-4 py-5'>
       <Dialog>
         <DialogTrigger asChild>
-          <div className='elevate !p-4 flex flex-col'>
+          <div className='elevate !p-4 flex flex-col min-h-64'>
             <h1 className='font-bold text-2xl'>Create A Website</h1>
             <div className='h-full flex items-center justify-center'>
               <Plus />
@@ -188,14 +188,16 @@ function WebsiteList() {
                 </p>
               )}
             </div>
-            <a
-              className='font-mono hover:underline underline-offset-2 mb-5 self-start'
-              href={`https://${website.url}`}
-              target='_blank'
-              rel='noreferrer'
-            >
-              {website.url}
-            </a>
+            {website.published && (
+              <a
+                className='font-mono text-black hover:underline underline-offset-2 mb-5 self-start'
+                href={`${window.location.protocol}//site-${website.url}.${window.location.host}`}
+                target='_blank'
+                rel='noreferrer'
+              >
+                {`site-${website.url}.${window.location.host}`}
+              </a>
+            )}
             <div className='mt-auto flex justify-between items-end'>
               <p className='text-xs text-zinc-500'>
                 Last updated:{" "}
