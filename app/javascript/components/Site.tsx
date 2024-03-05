@@ -4,6 +4,7 @@ import {
   ContentParsed,
   isFooterSection,
   isNavbarSection,
+  isProductListSection,
   isProductSection,
   isRichTextSection,
 } from "../types/website";
@@ -11,6 +12,7 @@ import NavbarView from "./WebsiteEditor/Views/NavbarView";
 import FooterView from "./WebsiteEditor/Views/FooterView";
 import RichTextView from "./WebsiteEditor/Views/RichTextView";
 import ProductView from "./WebsiteEditor/Views/ProductView";
+import ProductListView from "./WebsiteEditor/Views/ProductListView";
 
 type SiteProps = {
   subdomain: string;
@@ -67,6 +69,14 @@ function Site(props: SiteProps) {
         } else if (isProductSection(section)) {
           return (
             <ProductView key={section.id} section={section} common={common} />
+          );
+        } else if (isProductListSection(section)) {
+          return (
+            <ProductListView
+              key={section.id}
+              section={section}
+              common={common}
+            />
           );
         } else {
           return <div key={index}>Unknown section type</div>;
