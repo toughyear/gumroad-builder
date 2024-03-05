@@ -14,7 +14,7 @@ const NavbarView: React.FC<NavbarViewProps> = ({ section, common }) => {
 
   return (
     <div className='border-b border-black w-full'>
-      <div className='max-w-5xl mx-auto py-5 w-full flex justify-between content-center'>
+      <div className='max-w-5xl mx-auto py-5 w-full flex md:flex-row flex-col justify-between content-center px-5 md:px-0'>
         <div>
           {section.data.showAvatar && userProfile && (
             <div className='flex items-center mb-2'>
@@ -27,7 +27,9 @@ const NavbarView: React.FC<NavbarViewProps> = ({ section, common }) => {
             </div>
           )}
           {section.data.heading && (
-            <h1 className='text-3xl font-bold'>{section.data.heading}</h1>
+            <h1 className='text-3xl font-bold mb-5 md:mb-auto'>
+              {section.data.heading}
+            </h1>
           )}
         </div>
         {section.data.captureEmail && (

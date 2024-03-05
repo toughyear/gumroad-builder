@@ -82,10 +82,21 @@ export type ProductSectionData = {
   showThumbnail: boolean;
 };
 
+export type ProductListSectionData = {
+  selectedProductIds: Array<string>;
+  title?: string;
+};
+
 export type ProductSection = {
   id: string;
   type: SectionType.product;
   data: ProductSectionData;
+};
+
+export type ProductListSection = {
+  id: string;
+  type: SectionType.product_list;
+  data: ProductListSectionData;
 };
 
 export type Section =
@@ -93,7 +104,8 @@ export type Section =
   | NavbarSection
   | FooterSection
   | RichTextSection
-  | ProductSection;
+  | ProductSection
+  | ProductListSection;
 
 // type guards
 export function isNavbarSection(section: Section): section is NavbarSection {
@@ -109,6 +121,11 @@ export function isRichTextSection(
 }
 export function isProductSection(section: Section): section is ProductSection {
   return section.type === SectionType.product;
+}
+export function isProductListSection(
+  section: Section
+): section is ProductListSection {
+  return section.type === SectionType.product_list;
 }
 export function isGenericSection(section: Section): section is GenericSection {
   return (

@@ -3,6 +3,7 @@ import { PlusCircle } from "lucide-react";
 import {
   FooterSectionData,
   NavbarSectionData,
+  ProductListSection,
   ProductSection,
   RichTextSection,
   Section,
@@ -70,6 +71,19 @@ function AddSection({ sectionId, addSection }: AddSectionProps) {
           showThumbnail: true,
         };
         break;
+      case SectionType.product_list:
+        if (products === null || products.length === 0) {
+          alert(
+            "You need to have at least one product on your Gumroad account."
+          );
+          return;
+        }
+        (newSection as ProductListSection).data = {
+          selectedProductIds: products
+            ? products.map((product) => product.id)
+            : [],
+        };
+        break;
       default:
         break;
     }
@@ -95,6 +109,7 @@ function AddSection({ sectionId, addSection }: AddSectionProps) {
           <SelectItem value={SectionType.footer}>Footer</SelectItem>
           <SelectItem value={SectionType.rich_text}>Rich Text</SelectItem>
           <SelectItem value={SectionType.product}>Product</SelectItem>
+          <SelectItem value={SectionType.product_list}>Product List</SelectItem>
         </SelectContent>
       </Select>
     </div>

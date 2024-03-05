@@ -5,6 +5,7 @@ import {
   Website,
   isFooterSection,
   isNavbarSection,
+  isProductListSection,
   isProductSection,
   isRichTextSection,
 } from "../../../types/website";
@@ -16,6 +17,7 @@ import FooterItem from "./FooterItem";
 import AddSection from "./AddSection";
 import RichTextItem from "./RichTextItem";
 import ProductItem from "./ProductItem";
+import ProductListItem from "./ProductListItem";
 
 type ContentEditorProps = {
   siteInfo: Website;
@@ -151,6 +153,22 @@ function ContentEditor({ siteInfo, setSiteInfo }: ContentEditorProps) {
           return (
             <React.Fragment key={section.id}>
               <ProductItem
+                siteInfo={siteInfo}
+                content={content}
+                section={section}
+                key={section.id}
+              />
+              <AddSection
+                sectionId={section.id}
+                addSection={addSectionHandler}
+              />
+            </React.Fragment>
+          );
+        }
+        if (isProductListSection(section)) {
+          return (
+            <React.Fragment key={section.id}>
+              <ProductListItem
                 siteInfo={siteInfo}
                 content={content}
                 section={section}

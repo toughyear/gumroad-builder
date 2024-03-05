@@ -11,10 +11,11 @@ const ProductView: React.FC<ProductViewProps> = ({ section, common }) => {
     (product) => product.id === section.data.selectedProductId
   );
 
-  console.log(product);
+  if (!product) return <div>Product Not Found.</div>;
+
   return (
     <div className='border-b border-black w-full'>
-      <div className='max-w-xl mx-auto py-10 w-full'>
+      <div className='max-w-xl mx-auto py-10 w-full px-5 md:px-0'>
         {section.data.showThumbnail && product?.preview_url && (
           <img
             src={product.preview_url}

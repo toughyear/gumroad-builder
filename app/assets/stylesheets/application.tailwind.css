@@ -204,7 +204,7 @@ select.code-language {
 
 #rich-text-view {
   h1 {
-    @apply text-7xl;
+    @apply text-4xl md:text-7xl;
   }
 
   strong {

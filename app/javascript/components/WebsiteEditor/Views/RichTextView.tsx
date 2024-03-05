@@ -18,7 +18,7 @@ function RichTextView({ section }: RichTextViewProps) {
       <div
         id='rich-text-view'
         dangerouslySetInnerHTML={{ __html: dom }}
-        className='max-w-5xl mx-auto py-5 w-full flex flex-col'
+        className='max-w-5xl mx-auto py-5 w-full flex flex-col px-5 md:px-0'
       />
     </div>
   );
