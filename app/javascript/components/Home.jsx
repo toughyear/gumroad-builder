@@ -22,9 +22,9 @@ const Home = () => {
               <button className='elevate-brand' onClick={connectToGumroad}>
                 Start Building
               </button>
-              <a href="https://github.com/toughyear/gumroad-builder" target="_blank" class="border items-center border-black p-2 inline-flex">
+              <a href="https://github.com/toughyear/gumroad-builder" target="_blank" className="border items-center border-black p-2 inline-flex">
                   GitHub
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="inline-block">
                     <path d="M7 7h10v10"/>
                     <path d="M7 17 17 7"/>
                   </svg>
